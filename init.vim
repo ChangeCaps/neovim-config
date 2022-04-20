@@ -1,10 +1,9 @@
-set shell=/bin/bash
+
 let mapleader = "\<Space>"
-
-
 
 set nocompatible
 filetype off
+
 call plug#begin()
 
 Plug 'itchyny/lightline.vim'
@@ -15,40 +14,118 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'chriskempson/base16-vim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
 
-Plug 'rust-lang/rust'
+" Only because nvim-cmp _requires_ snippets
+Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
+Plug 'hrsh7th/vim-vsnip'
+
+Plug 'rust-lang/rust.vim'
+
+Plug 'habamax/vim-godot'
+
+Plug 'DingDean/wgsl.vim', { 'branch': 'main' }
 
 call plug#end()
 
 colorscheme base16-atelier-dune
 set termguicolors
 
+syntax on
+filetype plugin indent on
+
 set splitright
 set splitbelow
+set mouse=a
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+lua << END
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+local lspconfig = require('lspconfig')
+
+local on_attach = function(client, bufnr)	
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local opts = { noremap = true, silent = true }
+
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<Space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<Space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+end
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    -- REQUIRED by nvim-cmp. get rid of it once we can
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  }, 
+  mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<Tab>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+  },
+}
+END
+
 map <C-p> :Files<CR>
 
-filetype plugin indent on
+" Spell check
+set spell spelllang=en_us
+
+" Rust
+let g:rustfmt_autosave = 1
+
 set autoindent
 set encoding=utf-8
 
-set shiftwidth=8
+set shiftwidth=4
 set softtabstop=8
-set tabstop=8
+set tabstop=4
 set noexpandtab
 
 set number relativenumber
+
+set completeopt=menuone,noinsert,noselect
 
 " Mappings
 
@@ -58,7 +135,12 @@ map <C-k> 10k
 map <C-j> 10j
 
 nmap <leader>w :w<CR>
-noremap <leader><leader> <C-w><C-w> 
+nmap <leader>h <C-w>h
+nmap <leader>j <C-w>j
+nmap <leader>k <C-w>k
+nmap <leader>l <C-w>l
+nmap <leader><leader> m
+nmap m <C-w><C-w>
 
 inoremap {<CR> {<CR>}<Up><Esc>A<CR><Space><BackSpace>
 
@@ -71,15 +153,3 @@ inoremap <right> <nop>
 
 nnoremap <left> :bp<CR>
 nnoremap <right> :bn<CR>
-
-nmap <silent> E <Plug>(coc-diagnostic-prev)
-nmap <silent> W <Plug>(coc-diagnostic-next)
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
