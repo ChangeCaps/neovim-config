@@ -1,4 +1,3 @@
-
 let mapleader = "\<Space>"
 
 set nocompatible
@@ -20,11 +19,15 @@ Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
 Plug 'hrsh7th/cmp-path', {'branch': 'main'}
 Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
 
+Plug 'github/copilot.vim'
+
 " Only because nvim-cmp _requires_ snippets
 Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 
 Plug 'rust-lang/rust.vim'
+
+Plug 'tikhomirov/vim-glsl'
 
 Plug 'habamax/vim-godot'
 
@@ -53,6 +56,18 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local lspconfig = require('lspconfig')
+local configs = require('lspconfig.configs')
+
+if not configs.wgsl_analyzer then
+	configs.wgsl_analyzer = {
+		default_config = {
+			cmd = { vim.fn.expand("$HOME") .. "/.cargo/bin/wgsl_analyzer" },
+			filetypes = { "wgsl" },
+			root_dir = lspconfig.util.root_pattern(".git", "wgsl"),
+			settings = {},
+		},
+	}
+end
 
 local on_attach = function(client, bufnr)	
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -68,7 +83,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'rust_analyzer', 'wgsl_analyzer', 'pyright', 'tsserver', 'texlab' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -127,12 +142,16 @@ set number relativenumber
 
 set completeopt=menuone,noinsert,noselect
 
+" Copilot
+imap <silent><script><expr> <S-CR> copilot#Accept("")
+let g:copilot_no_tab_map = v:true
+
 " Mappings
 
-map <C-h> _
-map <C-l> $
-map <C-k> 10k
-map <C-j> 10j
+noremap <C-h> _
+noremap <C-l> $
+noremap <C-k> 10k
+noremap <C-j> 10j
 
 nmap <leader>w :w<CR>
 nmap <leader>h <C-w>h
