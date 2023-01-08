@@ -25,13 +25,13 @@ Plug 'github/copilot.vim'
 Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}
 Plug 'hrsh7th/vim-vsnip'
 
-Plug 'rust-lang/rust.vim'
-
+" Glsl
 Plug 'tikhomirov/vim-glsl'
 
-Plug 'habamax/vim-godot'
+" java
+Plug 'mfussenegger/nvim-jdtls'
 
-Plug 'DingDean/wgsl.vim', { 'branch': 'main' }
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -53,7 +53,6 @@ endfunction
 lua << END
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
@@ -83,7 +82,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'rust_analyzer', 'wgsl_analyzer', 'pyright', 'tsserver', 'texlab' }
+local servers = { 'clangd', 'rust_analyzer', 'wgsl_analyzer', 'pyright' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -129,6 +128,7 @@ set spell spelllang=en_us
 
 " Rust
 let g:rustfmt_autosave = 1
+
 
 set autoindent
 set encoding=utf-8
