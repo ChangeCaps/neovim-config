@@ -28,19 +28,16 @@ vim.keymap.set("n", "<leader>k", "<C-w>k")
 vim.keymap.set("n", "<leader>l", "<C-w>l")
 vim.keymap.set("n", "<leader><leader>", "<C-w><C-w>", ignore)
 
--- Switch to tab
-vim.keymap.set("n", "<leader>1", ":tabn 1<CR>")
-vim.keymap.set("n", "<leader>2", ":tabn 2<CR>")
-vim.keymap.set("n", "<leader>3", ":tabn 3<CR>")
-vim.keymap.set("n", "<leader>4", ":tabn 4<CR>")
-vim.keymap.set("n", "<leader>5", ":tabn 5<CR>")
-vim.keymap.set("n", "<leader>6", ":tabn 6<CR>")
-vim.keymap.set("n", "<leader>7", ":tabn 7<CR>")
-vim.keymap.set("n", "<leader>8", ":tabn 8<CR>")
-vim.keymap.set("n", "<leader>9", ":tabn 9<CR>")
+-- Tab navigation
+for i = 1, 9 do
+	vim.keymap.set("n", "<leader>" .. i, "<cmd>tabnext " .. i .. "<CR>")
+end
 
--- Close current tab
+-- Close tab
 vim.keymap.set("n", "<leader>q", ":tabclose<CR>")
+
+-- New tab
+vim.keymap.set("n", "<leader>t", ":tabnew<CR>")
 
 -- Save
 vim.keymap.set("n", "<leader>w", ":w<CR>")

@@ -46,7 +46,6 @@ vim.opt.tabstop = 4
 
 -- Line number
 vim.cmd("set number relativenumber")
-vim.cmd("set completeopt=menuone,noinsert,noselect")
 
 -- Treesitter
 require("nvim-treesitter.configs").setup {

@@ -5,3 +5,6 @@ vim.g.vimspector_terminal_maxwidth = 70
 
 -- Clipboard xclip
 vim.cmd("set clipboard+=unnamedplus")
+
+-- Rustfmt
+vim.g.rustfmt_autosave = 1

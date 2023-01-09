@@ -12,13 +12,6 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	buf_set_keymap('n', '<Space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<Space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-
-	require("lsp_signature").on_attach({
-		doc_lines = 0,
-		handler_ops = {
-			border = "none",
-		},
-	})
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -63,28 +56,9 @@ lspconfig.pyright.setup({
 	},
 })
 
-vim.diagnostic.config({
-	virtual_text = false,
-	signs = true,
-	update_in_insert = true,
-	underline = true,
-	severity_sort = false,
-	float = {
-		border = 'rounded',
-		source = 'always',
-		header = '',
-		prefix = '',
-	},
-})
-
-vim.cmd([[
-set signcolumn=yes
-autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-]])
-
 -- nvim-cmp setup
 local cmp = require 'cmp'
-cmp.setup {
+cmp.setup({
 	snippet = {
 	-- REQUIRED by nvim-cmp. get rid of it once we can
 	expand = function(args)
@@ -122,6 +96,7 @@ cmp.setup {
 		format = function(entry, item)
 			local menu_icon ={
 				nvim_lsp = 'λ',
+				nvim_lua = '',
 				vsnip = '⋗',
 				buffer = 'Ω',
 				path = '🖫',
@@ -130,4 +105,4 @@ cmp.setup {
 			return item
 		end,
 	},
-}
+})
