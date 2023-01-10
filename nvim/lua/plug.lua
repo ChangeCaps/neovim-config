@@ -1,9 +1,6 @@
 local Plug = vim.fn["plug#"]
 vim.call('plug#begin', '~/.config/nvim/plugged')
 
--- Light line
-Plug 'itchyny/lightline.vim'
-
 -- Rooter
 Plug 'airblade/vim-rooter'
 
@@ -11,8 +8,8 @@ Plug 'airblade/vim-rooter'
 Plug('junegunn/fzf', { ['dir'] = '~/.fzf', ['do'] = './install --all' })
 Plug 'junegunn/fzf.vim'
 
--- Base 16 color scheme
-Plug 'chriskempson/base16-vim'
+-- Colorscheme
+Plug 'rebelot/kanagawa.nvim'
 
 -- Neovim lsp
 Plug 'neovim/nvim-lspconfig'
@@ -30,14 +27,17 @@ Plug('hrsh7th/cmp-vsnip', {['branch'] = 'main'})
 Plug 'hrsh7th/vim-vsnip'
 
 -- Debugging
-Plug 'puremourning/vimspector'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 
 -- Treesitter
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate*'})
 
 ---- Languages ----
 Plug 'mfussenegger/nvim-jdtls' -- Java
-Plug 'rust-lang/rust.vim'      -- Rust
+Plug 'simrat39/rust-tools.nvim' -- Rust
+Plug 'Saecki/crates.nvim' -- Rust
 
 -- Shading languages
 Plug 'tikhomirov/vim-glsl' -- GLSL

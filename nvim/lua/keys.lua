@@ -1,13 +1,14 @@
 local ignore = { noremap = true, silent = true }
 local silent = { silent = true }
 
--- Vimspector
-vim.keymap.set("n", "<F5>", "<cmd>call vimspector#Continue()<CR>")
-vim.keymap.set("n", "<F8>", "<cmd>call vimspector#ToggleBreakpoint()<CR>")
-vim.keymap.set("n", "<F9>", "<cmd>call vimspector#Launch()<CR>")
-vim.keymap.set("n", "<F10>", "<cmd>call vimspector#StepInto()<CR>")
-vim.keymap.set("n", "<F11>", "<cmd>call vimspector#StepOver()<CR>")
-vim.keymap.set("n", "<F12>", "<cmd>call vimspector#StepOut()<CR>")
+-- Debugging (nvim-dap)
+vim.keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<CR>", ignore)
+vim.keymap.set("n", "<F10>", "<cmd>lua require'dap'.step_over()<CR>", ignore)
+vim.keymap.set("n", "<F11>", "<cmd>lua require'dap'.step_into()<CR>", ignore)
+vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", ignore)
+vim.keymap.set("n", "<F8>", "<cmd>lua require'dapui'.toggle()<CR>", ignore)
+
+vim.keymap.set("n", "<leader>d", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", ignore)
 
 ---- Vim keymaps ----
 -- Move lines

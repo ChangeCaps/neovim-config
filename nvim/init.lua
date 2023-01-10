@@ -19,8 +19,8 @@ require("commands")
 
 ---- Settings ----
 -- Colorscheme
-vim.cmd.colorscheme("base16-atelier-dune")
-vim.opt.termguicolors = true
+vim.cmd [[ set background=dark ]]
+vim.cmd [[ colorscheme kanagawa ]]
 
 -- Syntax highlighting
 vim.cmd("syntax on")

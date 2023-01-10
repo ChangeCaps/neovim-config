@@ -8,3 +8,6 @@ vim.cmd("set clipboard+=unnamedplus")
 
 -- Rustfmt
 vim.g.rustfmt_autosave = 1
+
+-- Set all floating windows to have a rounded border
+vim.g.winhl = "NormalFloat:NormalFloat,FloatBorder:NormalFloat"
