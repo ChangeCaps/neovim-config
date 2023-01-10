@@ -2,7 +2,7 @@ local lspconfig = require('lspconfig')
 local cmp = require('cmp')
 local dap = require('dap')
 
-local on_attach = function(client, bufnr)	
+local on_attach = function(client, bufnr)
 	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -13,13 +13,6 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	buf_set_keymap('n', '<Space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<Space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-
-	require("lsp_signature").on_attach({
-		doc_lines = 0,
-		handler_opts = {
-			border = "none",	
-		},
-	})
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -49,7 +42,7 @@ dap.configurations.rust = {
 			local targets = cargo.binary_targets(meta)
 
 			-- if we have no targets, we can't debug anything
-			if #targets == 0 then	
+			if #targets == 0 then
 				return nil
 			end
 
@@ -58,7 +51,7 @@ dap.configurations.rust = {
 				cargo.build(targets[1].name)
 				return target_dir .. "/debug/" .. targets[1].name
 			end
-			
+
 			-- if we have multiple, let the user choose
 			local choices = {}
 
@@ -86,32 +79,32 @@ dap.configurations.rust = {
 
 rt.setup({
 	-- options same as lsp hover / vim.lsp.util.open_floating_preview()
-    hover_actions = {
+	hover_actions = {
 
-      -- the border that is used for the hover window
-      -- see vim.api.nvim_open_win()
-      border = "none",
+		-- the border that is used for the hover window
+		-- see vim.api.nvim_open_win()
+		border = "none",
 
-      -- Maximal width of the hover window. Nil means no max.
-      max_width = nil,
+		-- Maximal width of the hover window. Nil means no max.
+		max_width = nil,
 
-      -- Maximal height of the hover window. Nil means no max.
-      max_height = nil,
+		-- Maximal height of the hover window. Nil means no max.
+		max_height = nil,
 
-      -- whether the hover action window gets automatically focused
-      -- default: false
-      auto_focus = true,
-    },
+		-- whether the hover action window gets automatically focused
+		-- default: false
+		auto_focus = true,
+	},
 	server = {
 		on_attach = function(client, bufnr)
 			local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-			local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end	
+			local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
 			on_attach(client, bufnr)
 
 			local opts = { noremap = true, silent = true }
 
-			vim.keymap.set('n', '<C-space>', rt.hover_actions.hover_actions, opts)
+			vim.keymap.set('n', '<Bslash><C-h><Space>', rt.hover_actions.hover_actions, opts)
 		end
 	},
 	dap = {
@@ -147,11 +140,11 @@ lspconfig.pyright.setup({
 local cmp = require 'cmp'
 cmp.setup({
 	snippet = {
-	-- REQUIRED by nvim-cmp. get rid of it once we can
-	expand = function(args)
-		vim.fn["vsnip#anonymous"](args.body)
+		-- REQUIRED by nvim-cmp. get rid of it once we can
+		expand = function(args)
+			vim.fn["vsnip#anonymous"](args.body)
 		end,
-	}, 
+	},
 	mapping = cmp.mapping.preset.insert({
 		['<C-d>'] = cmp.mapping.scroll_docs(-4),
 		['<C-f>'] = cmp.mapping.scroll_docs(4),

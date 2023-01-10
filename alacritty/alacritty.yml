@@ -94,7 +94,7 @@ font:
 
   # Bold font face
   bold:
-    family: "Noto Sans Mono" 
+    family: "Noto Sans Mono"
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
@@ -407,6 +407,8 @@ key_bindings:
   # fix S-CR and C-CR
   - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
   - { key: Return,   mods: Control, chars: "\x1b[13;5u" }
+  # fix S-Space
+  - { key: Space,    mods: Shift,   chars: "\x5c\x08 " }
 
   - { key: Paste,                   action: Paste                            }
   - { key: Copy,                    action: Copy                             }

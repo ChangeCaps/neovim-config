@@ -44,6 +44,10 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 8
 vim.opt.tabstop = 4
 
+-- Autoformat
+vim.cmd("au BufWrite * :Autoformat")
+vim.cmd("au FileType yaml let b:autoformat_autoindent=0")
+
 -- Line number
 vim.cmd("set number relativenumber")
 

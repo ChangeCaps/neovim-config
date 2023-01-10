@@ -34,6 +34,9 @@ Plug 'rcarriga/nvim-dap-ui'
 -- Treesitter
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate*'})
 
+-- Autoformat
+Plug 'Chiel92/vim-autoformat'
+
 ---- Languages ----
 Plug 'mfussenegger/nvim-jdtls' -- Java
 Plug 'simrat39/rust-tools.nvim' -- Rust
