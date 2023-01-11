@@ -2,13 +2,33 @@ local ignore = { noremap = true, silent = true }
 local silent = { silent = true }
 
 -- Debugging (nvim-dap)
+function launch_with_args()
+	local locate_program = require('locate_program')
+
+	local program = locate_program.locate()
+	local args = vim.fn.input("Enter program arguments: ", "", "file")
+
+	local dap = require('dap')
+	local config = vim.deepcopy(dap.configurations[vim.bo.filetype][1])
+
+	config.program = program
+
+	for _, arg in ipairs(vim.split(args, " ")) do
+		table.insert(config.args, arg)
+	end
+
+	dap.run(config)
+end
+
 vim.keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<CR>", ignore)
+vim.keymap.set("n", "<F6>", launch_with_args, ignore)
 vim.keymap.set("n", "<F10>", "<cmd>lua require'dap'.step_over()<CR>", ignore)
 vim.keymap.set("n", "<F11>", "<cmd>lua require'dap'.step_into()<CR>", ignore)
 vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", ignore)
 vim.keymap.set("n", "<F8>", "<cmd>lua require'dapui'.toggle()<CR>", ignore)
 
 vim.keymap.set("n", "<leader>d", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", ignore)
+vim.keymap.set("n", "<F4>", "<cmd>lua require'dap'.clear_breakpoints()<CR>", ignore)
 
 ---- Vim keymaps ----
 -- Move lines

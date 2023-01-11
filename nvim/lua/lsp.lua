@@ -1,6 +1,7 @@
 local lspconfig = require('lspconfig')
 local cmp = require('cmp')
 local dap = require('dap')
+local locate_program = require('locate_program')
 
 local on_attach = function(client, bufnr)
 	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -30,46 +31,25 @@ require('dapui').setup({})
 local rt = require("rust-tools")
 local cargo = require("cargo")
 
+locate_program.locaters.rust = function()
+	local meta = cargo.metadata()
+	local target_dir = meta.target_directory
+
+	local target = cargo.choose_binary_target(meta)
+	if target == nil then
+		return nil
+	end
+
+	cargo.build(target)
+	return target_dir .. "/debug/" .. target.name
+end
+
 dap.configurations.rust = {
 	{
 		name = "Launch",
 		type = "vscode_lldb",
 		request = "launch",
-		program = function()
-			local meta = cargo.metadata()
-			local target_dir = meta.target_directory
-
-			local targets = cargo.binary_targets(meta)
-
-			-- if we have no targets, we can't debug anything
-			if #targets == 0 then
-				return nil
-			end
-
-			-- if we have only one target, just return it
-			if #targets == 0 then
-				cargo.build(targets[1].name)
-				return target_dir .. "/debug/" .. targets[1].name
-			end
-
-			-- if we have multiple, let the user choose
-			local choices = {}
-
-			for i, target in ipairs(targets) do
-				local target_choice = i .. ". " .. target.name .. " (" .. target.crate_types[1] .. ")"
-
-				table.insert(choices, target_choice)
-			end
-
-			local choice = vim.fn.inputlist(choices)
-
-			if choice == 0 then
-				return nil
-			end
-
-			cargo.build(targets[choice].name)
-			return target_dir .. "/debug/" .. targets[choice].name
-		end,
+		program = locate_program.locate,
 		cwd = "${workspaceFolder}",
 		stopOnEntry = false,
 		args = {},
@@ -112,13 +92,25 @@ rt.setup({
 	},
 })
 
-require('crates').setup({
-	loading_indicator = false,
-})
+require('crates').setup({})
 
 -- Lua setup
 
 -- C setup
+dap.configurations.c = {
+	{
+		name = "Launch",
+		type = "vscode_lldb",
+		request = "launch",
+		program = locate_program.locate,
+		cwd = "${workspaceFolder}",
+		stopOnEntry = false,
+		args = {},
+		runInTerminal = false,
+	},
+}
+dap.configurations.cpp = dap.configurations.c
+
 lspconfig.clangd.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
