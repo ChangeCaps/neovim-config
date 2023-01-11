@@ -23,7 +23,7 @@ local nvim_home = vim.fn.stdpath('config')
 local codelldb_path = nvim_home .. "/vscode_lldb_x86_64_linux/adapter/codelldb"
 local liblldb_path = nvim_home .. "/vscode_lldb_x86_64_linux/lldb/lib/liblldb.so"
 
-dap.adapters.vscode_lldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
 
 require('dapui').setup({})
 
@@ -47,7 +47,7 @@ end
 dap.configurations.rust = {
 	{
 		name = "Launch",
-		type = "vscode_lldb",
+		type = "codelldb",
 		request = "launch",
 		program = locate_program.locate,
 		cwd = "${workspaceFolder}",
@@ -100,7 +100,7 @@ require('crates').setup({})
 dap.configurations.c = {
 	{
 		name = "Launch",
-		type = "vscode_lldb",
+		type = "codelldb",
 		request = "launch",
 		program = locate_program.locate,
 		cwd = "${workspaceFolder}",

@@ -14,9 +14,7 @@ local function locate()
 		end
 	end
 
-	local program = vim.fn.input("Enter program path: ", vim.fn.getcwd() .. "/", "file")
-
-	return vim.fn.getcwd() .. "/" .. program
+	return vim.fn.input("Enter program path: ", vim.fn.getcwd() .. "/", "file")
 end
 
 return {	
