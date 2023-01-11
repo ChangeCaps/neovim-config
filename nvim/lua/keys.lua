@@ -65,10 +65,6 @@ vim.keymap.set("n", "<leader>w", ":w<CR>")
 
 vim.keymap.set("i", "{<CR>", "{<CR>}<Up><Esc>A<CR><Space><BackSpace>")
 
-vim.keymap.set("i", "(<Space>", "(<CR>)<left><BackSpace>", ignore)
-vim.keymap.set("i", "[<Space>", "[<CR>]<left><BackSpace>", ignore)
-vim.keymap.set("i", "<<Space>", "<<CR>><left><BackSpace>", ignore)
-
 vim.keymap.set("n", "<up>", "<nop>", ignore)
 vim.keymap.set("n", "<down>", "<nop>", ignore)
 vim.keymap.set("i" ,"<up>", "<nop>", ignore)

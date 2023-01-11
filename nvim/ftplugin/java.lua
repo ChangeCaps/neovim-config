@@ -17,4 +17,16 @@ local config = {
 	},
 }
 
-require('jdtls').start_or_attach(config)
+local jdtls = require('jdtls')
+jdtls.setup_dap({ hotcodereplace = 'auto' })
+jdtls.start_or_attach(config)
+
+require('dap').configurations.java = {
+	{
+		name = "Attach",
+		type = "java",
+		request = "attach",
+		hostName = "localhost",
+		port = 5005,
+	}
+}

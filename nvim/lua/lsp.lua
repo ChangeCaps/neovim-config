@@ -31,6 +31,9 @@ require('dapui').setup({})
 local rt = require("rust-tools")
 local cargo = require("cargo")
 
+vim.g.rustfmt_autosave = 1 -- Rust format
+vim.g.rust_fold = 1 -- Rust fold
+
 locate_program.locaters.rust = function()
 	local meta = cargo.metadata()
 	local target_dir = meta.target_directory

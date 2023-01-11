@@ -32,15 +32,13 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 
 -- Treesitter
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate*'})
-
--- Autoformat
-Plug 'Chiel92/vim-autoformat'
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
 ---- Languages ----
 Plug 'mfussenegger/nvim-jdtls' -- Java
 Plug 'simrat39/rust-tools.nvim' -- Rust
 Plug 'Saecki/crates.nvim' -- Rust
+Plug 'rust-lang/rust.vim' -- Rust
 
 -- Shading languages
 Plug 'tikhomirov/vim-glsl' -- GLSL
