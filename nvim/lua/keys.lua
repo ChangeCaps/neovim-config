@@ -30,6 +30,11 @@ vim.keymap.set("n", "<F8>", "<cmd>lua require'dapui'.toggle()<CR>", ignore)
 vim.keymap.set("n", "<leader>d", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", ignore)
 vim.keymap.set("n", "<F4>", "<cmd>lua require'dap'.clear_breakpoints()<CR>", ignore)
 
+-- File explorer (nvim-tree)
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeFocus<CR>", ignore)
+vim.keymap.set("n", "<leader>r", "<cmd>NvimTreeRefresh<CR>", ignore)
+
+
 ---- Vim keymaps ----
 -- Move lines
 vim.keymap.set("n", "<C-h>", "_", ignore)
@@ -43,11 +48,15 @@ vim.keymap.set("v", "<C-k>", "10k", ignore)
 vim.keymap.set("v", "<C-j>", "10j", ignore)
 
 -- Move between windows
-vim.keymap.set("n", "<leader>h", "<C-w>h")
-vim.keymap.set("n", "<leader>j", "<C-w>j")
-vim.keymap.set("n", "<leader>k", "<C-w>k")
-vim.keymap.set("n", "<leader>l", "<C-w>l")
-vim.keymap.set("n", "<leader><leader>", "<C-w><C-w>", ignore)
+vim.keymap.set("n", "<leader>h", "<C-w>h", ignore)
+vim.keymap.set("n", "<leader>j", "<C-w>j", ignore)
+vim.keymap.set("n", "<leader>k", "<C-w>k", ignore)
+vim.keymap.set("n", "<leader>l", "<C-w>l", ignore)
+vim.keymap.set("n", "<leader><leader>", "<C-w>p", ignore)
+
+-- Quit all
+vim.keymap.set("n", "<C-q><C-q>", "<cmd>qa<CR>", ignore)
+
 
 -- Tab navigation
 for i = 1, 9 do

@@ -2,6 +2,9 @@
 vim.g.mapleader = " "
 vim.cmd("filetype off")
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 ---- Vim plug ----
 require("plug")
 
@@ -47,8 +50,30 @@ vim.opt.tabstop = 4
 -- Line number
 vim.cmd("set number relativenumber")
 
+-- File explorer
+require("nvim-tree").setup({
+	sort_by = "case_sensitive",
+	view = {
+		width = 40,
+		hide_root_folder = true,
+		mappings = {
+			list = {
+				{ key = "h", action = "close_node" },
+				{ key = "l", action = "open_node" },
+				{ key = "u", action = "dir_up" },
+			},
+		},
+	},
+	renderer = {
+		group_empty = true,
+	},
+	filters = {
+		dotfiles = true,
+	},
+})
+
 -- Treesitter
-require("nvim-treesitter.configs").setup {
+require("nvim-treesitter.configs").setup({
 	ensure_installed = { "lua", "rust", "toml" },
 	auto_install = true,
 	highlight = {
@@ -61,7 +86,7 @@ require("nvim-treesitter.configs").setup {
 		extended_mode = true,
 		max_file_lines = nil,
 	}
-}
+})
 
 -- Github copilot
 vim.cmd("imap <silent><script><expr> <S-CR> copilot#Accept(\"\")")

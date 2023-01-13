@@ -26,6 +26,10 @@ Plug 'github/copilot.vim'
 Plug('hrsh7th/cmp-vsnip', {['branch'] = 'main'})
 Plug 'hrsh7th/vim-vsnip'
 
+-- File explorer
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-tree/nvim-tree.lua'
+
 -- Debugging
 Plug 'nvim-lua/plenary.nvim'
 Plug 'mfussenegger/nvim-dap'
