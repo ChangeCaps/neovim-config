@@ -53,13 +53,15 @@ vim.cmd("set number relativenumber")
 -- File explorer
 require("nvim-tree").setup({
 	sort_by = "case_sensitive",
+	auto_reload_on_write = true,
 	view = {
 		width = 40,
 		hide_root_folder = true,
 		mappings = {
 			list = {
 				{ key = "h", action = "close_node" },
-				{ key = "l", action = "open_node" },
+				{ key = "l", action = "edit" },
+				{ key = "L", action = "vsplit_preview" },
 				{ key = "u", action = "dir_up" },
 			},
 		},
