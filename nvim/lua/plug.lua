@@ -19,6 +19,9 @@ Plug('hrsh7th/cmp-path', {['branch'] = 'main'})
 Plug('hrsh7th/nvim-cmp', {['branch'] = 'main'})
 Plug 'ray-x/lsp_signature.nvim'
 
+-- Markdown viewer
+Plug('iamcco/markdown-preview.nvim', {['do'] = 'cd app && yarn install'})
+
 -- Github copilot
 Plug 'github/copilot.vim'
 

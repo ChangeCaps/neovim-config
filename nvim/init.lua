@@ -50,6 +50,9 @@ vim.opt.tabstop = 4
 -- Line number
 vim.cmd("set number relativenumber")
 
+-- Markdown preview
+vim.cmd("let g:mkdp_auto_start = 1")
+
 -- File explorer
 require("nvim-tree").setup({
 	sort_by = "case_sensitive",
