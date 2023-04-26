@@ -48,6 +48,8 @@ Plug 'Saecki/crates.nvim' -- Rust
 Plug 'rust-lang/rust.vim' -- Rust
 Plug 'jose-elias-alvarez/typescript.nvim' -- Typescript
 Plug 'evanleck/vim-svelte' -- Svelte
+Plug 'DingDean/wgsl.vim' -- WGSL
+Plug 'scowcron/vim-pest' -- Pest
 
 -- Shading languages
 Plug 'tikhomirov/vim-glsl' -- GLSL

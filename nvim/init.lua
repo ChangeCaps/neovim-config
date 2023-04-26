@@ -50,16 +50,12 @@ vim.opt.tabstop = 4
 -- Line number
 vim.cmd("set number relativenumber")
 
--- Markdown preview
-vim.cmd("let g:mkdp_auto_start = 1")
-
 -- File explorer
 require("nvim-tree").setup({
 	sort_by = "case_sensitive",
 	auto_reload_on_write = true,
 	view = {
 		width = 40,
-		hide_root_folder = true,
 		mappings = {
 			list = {
 				{ key = "h", action = "close_node" },
@@ -71,9 +67,7 @@ require("nvim-tree").setup({
 	},
 	renderer = {
 		group_empty = true,
-	},
-	filters = {
-		dotfiles = true,
+		root_folder_label = false,
 	},
 })
 
