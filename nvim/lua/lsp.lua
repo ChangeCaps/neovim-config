@@ -38,12 +38,17 @@ locate_program.locaters.rust = function()
 	local meta = cargo.metadata()
 	local target_dir = meta.target_directory
 
-	local target = cargo.choose_binary_target(meta)
+	local target = cargo.choose_binary_or_example_target(meta)
 	if target == nil then
 		return nil
 	end
 
 	cargo.build(target)
+
+	if target.kind[1] == "example" then
+		return target_dir .. "/debug/examples/" .. target.name
+	end
+
 	return target_dir .. "/debug/" .. target.name
 end
 
@@ -147,6 +152,18 @@ require("typescript").setup({
 lspconfig.svelte.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	flags = {
+		debounce_text_changes = 150,
+	},
+})
+
+-- C-sharp setup
+lspconfig.omnisharp.setup({
+	cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+	filetypes = { "cs", "vb" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+	root_dir = lspconfig.util.root_pattern("*.sln", "*.csproj", "*.fsproj", ".git"),
 	flags = {
 		debounce_text_changes = 150,
 	},

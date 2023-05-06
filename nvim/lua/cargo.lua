@@ -53,6 +53,19 @@ local function binary_targets(meta)
 	return binary_targets
 end
 
+local function example_targets(meta)
+	local targets = targets(meta)
+	local example_targets = {}
+
+	for _, target in ipairs(targets) do
+		if target.kind[1] == "example" then
+			table.insert(example_targets, target)
+		end
+	end
+
+	return example_targets
+end
+
 local function test_targets(meta)
 	local targets = targets(meta)
 	local test_targets = {}
@@ -68,7 +81,7 @@ end
 
 local function choose_target(targets)	
 	if #targets == 0 then
-		vim.notify("No binary targets found", vim.log.levels.ERROR)
+		vim.notify("No targets found", vim.log.levels.ERROR)
 		return nil
 	end
 
@@ -85,7 +98,7 @@ local function choose_target(targets)
 	local choice = vim.fn.inputlist(names)
 
 	if choice == 0 then
-		vim.notify("No binary target chosen", vim.log.levels.ERROR)
+		vim.notify("No target chosen", vim.log.levels.ERROR)
 		return nil
 	end
 
@@ -94,6 +107,27 @@ end
 
 local function choose_binary_target(meta)
 	return choose_target(binary_targets(meta))
+end
+
+local function choose_example_target(meta)
+	return choose_target(example_targets(meta))
+end
+
+local function concat_tables(t1, t2)
+	for _, v in ipairs(t2) do
+		table.insert(t1, v)
+	end
+
+	return t1
+end
+
+local function choose_binary_or_example_target(meta)
+	local binary_targets = binary_targets(meta)
+	local example_targets = example_targets(meta)
+
+	local targets = concat_tables(binary_targets, example_targets)
+
+	return choose_target(targets)
 end
 
 local function choose_test_target(meta)
@@ -105,6 +139,8 @@ local function build(target)
 	if target ~= nil then
 		if target.kind[1] == "bin" then
 			table.insert(args, "--bin")
+		elseif target.kind[1] == "example" then
+			table.insert(args, "--example")
 		elseif target.kind[1] == "test" then
 			table.insert(args, "--test")
 		end
@@ -123,9 +159,12 @@ end
 return {
 	metadata = metadata,
 	binary_targets = binary_targets,
+	example_targets = example_targets,
 	test_targets = test_targets,
 	choose_target = choose_target,
 	choose_binary_target = choose_binary_target,
+	choose_example_target = choose_example_target,
+	choose_binary_or_example_target = choose_binary_or_example_target,
 	choose_test_target = choose_test_target,
 	build = build,
 }
