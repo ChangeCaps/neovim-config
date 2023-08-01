@@ -46,6 +46,7 @@ Plug 'mfussenegger/nvim-jdtls' -- Java
 Plug 'simrat39/rust-tools.nvim' -- Rust
 Plug 'Saecki/crates.nvim' -- Rust
 Plug 'rust-lang/rust.vim' -- Rust
+Plug 'habamax/vim-godot' -- GDScript
 Plug 'jose-elias-alvarez/typescript.nvim' -- Typescript
 Plug 'evanleck/vim-svelte' -- Svelte
 Plug 'DingDean/wgsl.vim' -- WGSL

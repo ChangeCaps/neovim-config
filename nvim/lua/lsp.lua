@@ -2,19 +2,7 @@ local lspconfig = require('lspconfig')
 local cmp = require('cmp')
 local dap = require('dap')
 local locate_program = require('locate_program')
-
-local on_attach = function(client, bufnr)
-	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-	local opts = { noremap = true, silent = true }
-
-	buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	buf_set_keymap('n', '<Space>r', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	buf_set_keymap('n', '<Space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-end
+local on_attach = require('on_attach')
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -102,6 +90,18 @@ rt.setup({
 
 require('crates').setup({})
 
+-- GDScript setup
+lspconfig.gdscript.setup({
+	on_attach = function(client, bufnr)
+		vim.api.nvim_command('echo serverstart(\'/tmp/godothost\')')
+		on_attach(client, bufnr)
+	end,
+	capabilities = capabilities,
+	flags = {
+		debounce_text_changes = 150,
+	},
+})
+
 -- Lua setup
 
 -- C setup
@@ -122,6 +122,7 @@ dap.configurations.cpp = dap.configurations.c
 lspconfig.clangd.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
 	flags = {
 		debounce_text_changes = 150,
 	},
