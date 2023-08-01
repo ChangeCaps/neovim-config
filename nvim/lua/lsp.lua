@@ -81,7 +81,15 @@ rt.setup({
 			local opts = { noremap = true, silent = true }
 
 			vim.keymap.set('n', '<Bslash><C-h><Space>', rt.hover_actions.hover_actions, opts)
-		end
+		end,
+		settings = {
+			["rust-analyzer"] = {
+				-- enable clippy on save
+				checkOnSave = {
+					command = "clippy",
+				},
+			},
+		},
 	},
 	dap = {
 		adapter = dap.adapters.rust,
