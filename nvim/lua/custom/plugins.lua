@@ -9,11 +9,21 @@ local plugins = {
         width = 40,
         preserve_window_proportions = false,
       },
+      renderer = {
+        icons = {
+          show = {
+            git = true,
+          },
+        },
+      },
       update_focused_file = {
         enable = false,
       },
       filesystem_watchers = {
         enable = false,
+      },
+      git = {
+        enable = true,
       },
     },
   },
