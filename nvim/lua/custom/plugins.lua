@@ -63,6 +63,14 @@ local plugins = {
     end,
   },
   {
+    "ionide/Ionide-vim",
+    ft = "fsharp",
+  },
+  {
+    "godlygeek/tabular",
+    lazy = false,
+  },
+  {
     "mfussenegger/nvim-dap",
   },
   {
