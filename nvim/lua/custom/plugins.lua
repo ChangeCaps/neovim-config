@@ -99,6 +99,10 @@ local plugins = {
     end,
   },
   {
+    "ziglang/zig.vim",
+    ft = { "zig" },
+  },
+  {
     "DingDean/wgsl.vim",
     ft = "wgsl",
   },
