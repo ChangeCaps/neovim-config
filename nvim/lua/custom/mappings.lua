@@ -41,15 +41,27 @@ M.window = {
     ["<leader>j"] = { "<C-w>j", "Move window down", opts = nowait },
     ["<leader>k"] = { "<C-w>k", "Move window up", opts = nowait },
     ["<leader>l"] = { "<C-w>l", "Move window right", opts = nowait },
-    ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "Telescope Files" }
+    ["<C-p>"] = { "<cmd> Telescope find_files <CR>", "Telescope Files" },
   },
 }
+
+M.tab = {
+  n = {
+    ["<leader>t"] = { "<cmd>tabnew<CR>", "Create new tab", opts = nowait },
+    ["<leader>q"] = { "<cmd>tabclose<CR>", "Close tab", opts = nowait },
+  }
+}
+
+for i = 1, 9 do
+  M.tab.n["<leader>" .. i] = { "<cmd>tabnext " .. i .. "<CR>", "Go to tab " .. i, opts = nowait }
+end
 
 local sidebar = nil
 M.debug = {
   n = {
     ["<leader>d"] = { "<cmd> DapToggleBreakpoint <CR>", "Toggle breakpoint" },
     ["<F5>"] = { "<cmd> RustDebuggables <CR>", "Debug rust" },
+    ["<F6>"] = { "<cmd> DapContinue <CR>", "Continue" },
     ["<F10>"] = { "<cmd> DapStepOver <CR>", "Step over" },
     ["<F11>"] = { "<cmd> DapStepInto <CR>", "Step into" },
     ["<F12>"] = { "<cmd> DapStepOut <CR>", "Step out" },
