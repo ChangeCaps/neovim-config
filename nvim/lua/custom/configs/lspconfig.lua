@@ -12,7 +12,6 @@ lspconfig.jdtls.setup({
 lspconfig.clangd.setup({
   on_attach = on_attach,
   capabilities = capabilities,
-
 })
 
 -- html
@@ -37,4 +36,5 @@ lspconfig.tsserver.setup({
 lspconfig.zls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
+  root_dir = lspconfig.util.root_pattern("build.zig", ".git"),
 })

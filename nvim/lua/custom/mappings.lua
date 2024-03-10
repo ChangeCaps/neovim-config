@@ -2,6 +2,16 @@ local M = {}
 
 local nowait = { nowait = true, noremap = true, silent = true }
 
+M.git = {
+  n = {
+    ["<leader>gg"] = { "<cmd>LazyGit <CR>", "Open LazyGit", opts = nowait },
+    ["<leader>gc"] = { "<cmd>LazyGitConfig <CR>", "Open LazyGit Config", opts = nowait },
+    ["<leader>gf"] = { "<cmd>LazyGitCurrentFile <CR>", "Open LazyGit Current File", opts = nowait },
+    ["<leader>gF"] = { "<cmd>LazyGitFilter <CR>", "Open LazyGit Filter", opts = nowait },
+    ["<leader>gC"] = { "<cmd>LazyGitFilterCurrentFile <CR>", "Open LazyGit Filter Current File", opts = nowait },
+  },
+}
+
 M.disabled = {
   n = {
     ["<leader>ls"] = "",
@@ -26,6 +36,8 @@ M.edit = {
     ["<C-l>"] = { "$", "Move to end of line", opts = nowait },
     ["<C-k>"] = { "10k", "Move up quick", opts = nowait },
     ["<C-j>"] = { "10j", "Move down quick", opts = nowait },
+    ["K"] = { "<cmd> m -2 <CR>", opts = nowait },
+    ["J"] = { "<cmd> m +1 <CR>", opts = nowait },
   },
   v = {
     ["<C-h>"] = { "_", "Move to start of line", opts = nowait },
@@ -99,7 +111,17 @@ M.lspconfig = {
       end,
       "LSP rename",
       opts = nowait,
-    }
+    },
+    ["H"] = {
+      function()
+        vim.lsp.buf.declaration()
+      end
+    },
+    ["L"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+    },
   },
 }
 

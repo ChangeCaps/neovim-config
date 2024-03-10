@@ -32,6 +32,23 @@ local plugins = {
     opts = require "custom.configs.telescope",
   },
   {
+    "nvim-telescope/telescope-ui-select.nvim",
+    lazy = false,
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
+  {
     "hrsh7th/nvim-cmp",
     opts = function()
       return require "custom.configs.cmp"
@@ -106,6 +123,11 @@ local plugins = {
     "DingDean/wgsl.vim",
     ft = "wgsl",
   },
+  {
+    -- glsl
+    "tikhomirov/vim-glsl",
+    ft = { "glsl", "vert", "frag" },
+  }
 }
 
 return plugins
