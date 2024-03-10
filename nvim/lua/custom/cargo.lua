@@ -56,7 +56,20 @@ M.run = function()
       return
     end
 
-    vim.cmd("term! cargo run --" .. target.kind[1] .. " " .. target.name)
+    local command = "cargo run --" .. target.kind[1] .. " " .. target.name
+    local prev_buf = vim.api.nvim_get_current_buf()
+
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_create_buf(false, true)
+
+    vim.api.nvim_win_set_buf(win, buf)
+
+    vim.fn.termopen(command, {
+        on_exit = function(_, _, _)
+          vim.api.nvim_win_set_buf(win, prev_buf)
+          vim.api.nvim_buf_delete(buf, { force = true })
+        end
+    })
   end)
 end
 
