@@ -66,15 +66,13 @@ M.run = function()
 
     vim.fn.termopen(command, {
         on_exit = function(_, _, _)
-          vim.keymap.set(
-            "n",
-            "<CR>",
-            function ()
-              vim.api.nvim_win_set_buf(win, prev_buf)
-              vim.api.nvim_buf_delete(buf, { force = true })
-            end,
-            { buffer = buf }
-          )
+          local function close ()
+            vim.api.nvim_win_set_buf(win, prev_buf)
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+
+          vim.keymap.set("n", "<CR>", close, { buffer = buf })
+          vim.keymap.set("n", "q", close, { buffer = buf })
         end
     })
   end)

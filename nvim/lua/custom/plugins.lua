@@ -30,9 +30,14 @@ local plugins = {
   {
     "nvim-telescope/telescope.nvim",
     opts = require "custom.configs.telescope",
+    lazy = false,
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",
+    lazy = false,
+  },
+  {
+    "nvim-lua/plenary.nvim",
     lazy = false,
   },
   {
