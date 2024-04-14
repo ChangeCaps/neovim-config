@@ -33,7 +33,7 @@ lspconfig.tsserver.setup({
 })
 
 -- nix
-lspconfig.rnix.setup({
+lspconfig.nixd.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
