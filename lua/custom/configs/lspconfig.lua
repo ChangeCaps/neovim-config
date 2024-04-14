@@ -32,6 +32,12 @@ lspconfig.tsserver.setup({
   capabilities = capabilities,
 })
 
+-- nix
+lspconfig.rnix.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- zig
 lspconfig.zls.setup({
   on_attach = on_attach,
