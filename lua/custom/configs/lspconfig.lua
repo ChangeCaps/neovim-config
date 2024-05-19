@@ -20,6 +20,12 @@ lspconfig.html.setup({
   capabilities = capabilities,
 })
 
+-- python
+lspconfig.pyright.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- css
 lspconfig.cssls.setup({
   on_attach = on_attach,
