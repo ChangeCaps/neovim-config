@@ -44,6 +44,8 @@ M.edit = {
     ["<C-l>"] = { "$", "Move to end of line", opts = nowait },
     ["<C-k>"] = { "10k", "Move up quick", opts = nowait },
     ["<C-j>"] = { "10j", "Move down quick", opts = nowait },
+    ["K"] = { "<cmd> m '<-2 <CR>", opts = nowait },
+    ["J"] = { "<cmd> m '>+1 <CR>", opts = nowait },
   },
 }
 
