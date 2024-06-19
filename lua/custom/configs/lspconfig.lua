@@ -32,6 +32,12 @@ lspconfig.cssls.setup({
   capabilities = capabilities,
 })
 
+-- godot
+lspconfig.gdscript.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- javascript
 lspconfig.tsserver.setup({
   on_attach = on_attach,
