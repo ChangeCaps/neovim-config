@@ -5,7 +5,7 @@ return function(bufnr)
 		return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 	end
 
-	vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node,          opts('CD'))
+	vim.keymap.set('n', '<CR>',  api.tree.change_root_to_node,          opts('CD'))
 	vim.keymap.set('n', '<C-e>', api.node.open.replace_tree_buffer,     opts('Open: In Place'))
 	vim.keymap.set('n', '<C-k>', api.node.show_info_popup,              opts('Info'))
 	vim.keymap.set('n', '<C-r>', api.fs.rename_sub,                     opts('Rename: Omit Filename'))
@@ -13,7 +13,6 @@ return function(bufnr)
 	vim.keymap.set('n', '<C-v>', api.node.open.vertical,                opts('Open: Vertical Split'))
 	vim.keymap.set('n', '<C-x>', api.node.open.horizontal,              opts('Open: Horizontal Split'))
 	vim.keymap.set('n', '<BS>',  api.node.navigate.parent_close,        opts('Close Directory'))
-	vim.keymap.set('n', '<CR>',  api.node.open.edit,                    opts('Open'))
 	vim.keymap.set('n', '<Tab>', api.node.open.preview,                 opts('Open Preview'))
 	vim.keymap.set('n', '>',     api.node.navigate.sibling.next,        opts('Next Sibling'))
 	vim.keymap.set('n', '<',     api.node.navigate.sibling.prev,        opts('Previous Sibling'))
