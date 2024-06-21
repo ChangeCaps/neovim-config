@@ -9,9 +9,14 @@ vim.api.nvim_create_user_command(
 
 -- Set tab width to 4 for godot scripts
 vim.api.nvim_create_autocmd(
-  { "BufEnter" },
+  { "BufEnter", "BufWinEnter" },
   {
-    command =  "echo asghjkfdsfg",
+    pattern = { "*.gd" },
+    callback = function()
+      vim.bo.tabstop = 4
+      vim.bo.softtabstop = 4
+      vim.bo.shiftwidth = 4
+    end
   }
 )
 
