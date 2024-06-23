@@ -59,10 +59,16 @@ M.window = {
   },
 }
 
+M.buffer = {
+  n = {
+    ["<leader>q"] = { "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", "Close current buffer", opts = nowait },
+  },
+}
+
 M.tab = {
   n = {
-    ["<leader>t"] = { "<cmd>tabnew<CR>", "Create new tab", opts = nowait },
-    ["<leader>q"] = { "<cmd>tabclose<CR>", "Close tab", opts = nowait },
+    ["<leader>tt"] = { "<cmd>tabnew<CR>", "Create new tab", opts = nowait },
+    ["<leader>tq"] = { "<cmd>tabclose<CR>", "Close tab", opts = nowait },
   }
 }
 
