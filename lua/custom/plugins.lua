@@ -28,6 +28,13 @@ local plugins = {
     },
   },
   {
+    "nvim-tools/none-ls.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "custom.configs.none-ls"
+    end,
+  },
+  {
     "nvim-telescope/telescope.nvim",
     opts = require "custom.configs.telescope",
     lazy = false,
