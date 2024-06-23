@@ -7,15 +7,19 @@ vim.api.nvim_create_user_command(
   { nargs = 0 }
 )
 
--- Set tab width to 4 for godot scripts
+vim.bo.tabstop = 4
+vim.bo.softtabstop = 4
+vim.bo.shiftwidth = 4
+
+-- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
   { "BufEnter", "BufWinEnter" },
   {
-    pattern = { "*.gd" },
+    pattern = { "*.gd", "*.nix", "*.lua", "Makefile" },
     callback = function()
-      vim.bo.tabstop = 4
-      vim.bo.softtabstop = 4
-      vim.bo.shiftwidth = 4
+      vim.bo.tabstop = 2
+      vim.bo.softtabstop = 2
+      vim.bo.shiftwidth = 2
     end
   }
 )
