@@ -2,6 +2,17 @@ local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
+-- format on save
+vim.api.nvim_create_autocmd(
+  { "BufWritePre" },
+  {
+    pattern = "*",
+    callback = function()
+      vim.lsp.buf.format()
+    end
+  }
+)
+
 -- java
 lspconfig.jdtls.setup({
     on_attach = on_attach,
