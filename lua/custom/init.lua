@@ -7,9 +7,9 @@ vim.api.nvim_create_user_command(
   { nargs = 0 }
 )
 
-vim.bo.tabstop = 4
-vim.bo.softtabstop = 4
-vim.bo.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
