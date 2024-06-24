@@ -25,11 +25,3 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.o.guifont = "FiraCode Nerd Font:h10"
-
--- Set the colorscheme
-local catppuccin = require("catppuccin")
-catppuccin.setup({
-  term_colors = true,
-})
-
-vim.cmd.colorscheme "catppuccin"
