@@ -101,6 +101,9 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-dap",
+    opts = function()
+      return require "custom.configs.dap"
+    end,
   },
   {
     "saecki/crates.nvim",
