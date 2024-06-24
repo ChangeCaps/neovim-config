@@ -1,9 +1,8 @@
 local dap = require("dap")
 dap.adapters.gdb = {
-  id = "gdb",
   type = "executable",
   command = "gdb",
-  args = { "--quiet", "--interpreter=dap" },
+  args = { "-i", "dap" },
 }
 
 local cxx = {
