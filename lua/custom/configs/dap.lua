@@ -1,5 +1,6 @@
 local dap = require("dap")
 dap.adapters.gdb = {
+  id = "gdb",
   type = "executable",
   command = "gdb",
   args = { "-i", "dap" },
@@ -12,7 +13,7 @@ local cxx = {
     request = "launch",
     program = function()
       -- Otherwise, ask the user for the path to the executable
-      local path vim.fn.input({
+      local path = vim.fn.input({
         prompt = "Path to executable: ",
         default = vim.fn.getcwd() .. "/",
         completion = "file",
@@ -21,6 +22,7 @@ local cxx = {
       return path
     end,
     cwd = "${workspaceFolder}",
+    stopAtEntry = true,
   },
 }
 
