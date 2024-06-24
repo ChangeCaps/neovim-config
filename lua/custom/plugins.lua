@@ -117,6 +117,7 @@ local plugins = {
   },
   {
     "catppuccin/nvim",
+    name = "catppuccin",
   },
   {
     "zbirenbaum/copilot.lua",
