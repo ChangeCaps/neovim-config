@@ -116,6 +116,9 @@ local plugins = {
     end
   },
   {
+    "catppuccin/nvim",
+  },
+  {
     "zbirenbaum/copilot.lua",
     lazy = false,
     opts = {
