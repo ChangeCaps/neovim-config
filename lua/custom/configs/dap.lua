@@ -21,7 +21,6 @@ local cxx = {
       return path
     end,
     cwd = "${workspaceFolder}",
-    stopAtBeginningOfMainSubprogram = false,
   },
 }
 
