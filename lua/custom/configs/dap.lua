@@ -3,6 +3,7 @@ dap.adapters.gdb = {
   type = "executable",
   command = "gdb",
   args = { "-i", "dap" },
+  name = "gdb",
 }
 
 local cxx = {
@@ -13,7 +14,7 @@ local cxx = {
     program = function()
       -- If we have a Makefile, use it to find the executable
       if vim.fn.filereadable("Makefile") == 1 then
-        return "make run"
+        --return "make run"
       end
 
       -- Otherwise, ask the user for the path to the executable
