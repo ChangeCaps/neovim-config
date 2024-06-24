@@ -22,7 +22,7 @@ local cxx = {
         local opts = {}
         pickers.new(opts, {
           prompt_title = "Path to executable",
-          finder = finders.new_oneshot_job({ "fd", "--hidden", "--no-ignore", "--type", "x" }, {}),
+          finder = finders.new_oneshot_job({ "fd", "--no-ignore", "--type", "x" }, {}),
           sorter = config.generic_sorter(opts),
           attach_mappings = function(bufnr)
             actions.select_default:replace(function()
