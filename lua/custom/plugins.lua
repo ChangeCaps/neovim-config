@@ -101,7 +101,6 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-dap",
-    ft = { "rust", "cpp", "c" },
     config = function()
       return require "custom.configs.dap"
     end,

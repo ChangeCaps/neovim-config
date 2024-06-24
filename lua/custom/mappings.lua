@@ -79,13 +79,58 @@ end
 local sidebar = nil
 M.debug = {
   n = {
-    ["<leader>d"] = { "<cmd> DapToggleBreakpoint <CR>", "Toggle breakpoint" },
-    ["<F5>"] = { "<cmd> RustDebuggables <CR>", "Debug rust" },
-    ["<F6>"] = { "<cmd> DapContinue <CR>", "Continue" },
-    ["<F7>"] = { "<cmd> DapTerminate <CR>", "Terminate" },
-    ["<F10>"] = { "<cmd> DapStepOver <CR>", "Step over" },
-    ["<F11>"] = { "<cmd> DapStepInto <CR>", "Step into" },
-    ["<F12>"] = { "<cmd> DapStepOut <CR>", "Step out" },
+    ["<leader>d"] = {
+      function()
+        require('dap').toggle_breakpoint()
+      end,
+      "Toggle breakpoint",
+    },
+    ["<leader>D"] = {
+      function()
+        require('dap').clear_breakpoints()
+      end,
+      "Clear breakpoints",
+    },
+    ["<F4>"] = {
+      function()
+        require('dap').run_last()
+      end,
+      "Run last configuration",
+    },
+    ["<F5>"] = {
+      "<cmd> RustDebuggables <CR>",
+      "Debug rust",
+    },
+    ["<F6>"] = {
+      function()
+        require('dap').continue()
+      end,
+      "Continue",
+    },
+    ["<F7>"] = {
+      function()
+        require('dap').run_to_cursor()
+      end,
+      "Run to cursor",
+    },
+    ["<F10>"] = {
+      function()
+        require('dap').step_over()
+      end,
+      "Step over",
+    },
+    ["<F11>"] = {
+      function()
+        require('dap').step_into()
+      end,
+      "Step into",
+    },
+    ["<F12>"] = {
+      function()
+        require('dap').step_out()
+      end,
+      "Step out",
+    },
     ["<F8>"] = {
       function()
         local widgets = require "dap.ui.widgets"
