@@ -2,6 +2,7 @@ local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local config = require("telescope.config").values
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
 
 local dap = require("dap")
 
@@ -27,7 +28,7 @@ local cxx = {
           attach_mappings = function(bufnr)
             actions.select_default:replace(function()
               actions.close(bufnr)
-              coroutine.resume(coro, actions.state.get_selected_entry()[1])
+              coroutine.resume(coro, action_state.get_selected_entry()[1])
             end)
             return true
           end,
