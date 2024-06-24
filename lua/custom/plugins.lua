@@ -101,7 +101,7 @@ local plugins = {
   },
   {
     "mfussenegger/nvim-dap",
-    opts = function()
+    config = function()
       return require "custom.configs.dap"
     end,
   },
