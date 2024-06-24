@@ -1,9 +1,9 @@
 local dap = require("dap")
 dap.adapters.gdb = {
+  id = "gdb",
   type = "executable",
   command = "gdb",
-  args = { "-i", "dap" },
-  name = "gdb",
+  args = { "--quiet", "--interpreter=dap" },
 }
 
 local cxx = {
@@ -12,13 +12,14 @@ local cxx = {
     type = "gdb",
     request = "launch",
     program = function()
-      -- If we have a Makefile, use it to find the executable
-      if vim.fn.filereadable("Makefile") == 1 then
-        --return "make run"
-      end
-
       -- Otherwise, ask the user for the path to the executable
-      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+      local path vim.fn.input({
+        prompt = "Path to executable: ",
+        default = vim.fn.getcwd() .. "/",
+        completion = "file",
+      })
+
+      return path
     end,
     cwd = "${workspaceFolder}",
     stopAtBeginningOfMainSubprogram = false,
