@@ -11,6 +11,9 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
+-- Set relative line numbers
+vim.opt.relativenumber = true
+
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
   { "BufEnter", "BufWinEnter" },
