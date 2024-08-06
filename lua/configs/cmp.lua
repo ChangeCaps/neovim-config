@@ -1,16 +1,16 @@
-local M = require "plugins.configs.cmp"
+local cmp = require("cmp")
 
-local complete = M.mapping["<CR>"]
-local next = M.mapping["<Tab>"]
-local prev = M.mapping["<S-Tab>"]
+local M = {}
 
-M.mapping["<Tab>"] = complete
-M.mapping["<down>"] = next
-M.mapping["<C-j>"] = next
-M.mapping["<S-Tab>"] = next
-M.mapping["<up>"] = prev
-M.mapping["<C-k>"] = prev
+M.mapping = {
+  ["<Tab>"] = cmp.mapping.complete(),
+  ["<S-Tab"] = cmp.mapping.select_next_item(),
+  ["<C-j>"] = cmp.mapping.select_next_item(),
+  ["<C-k>"] = cmp.mapping.select_prev_item(),
+}
 
-table.insert(M.sources, { name = "crates" })
+M.sources = {
+  { name = "crates" },
+}
 
 return M
