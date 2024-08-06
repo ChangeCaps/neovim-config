@@ -7,7 +7,7 @@ local lspconfig = require "lspconfig"
 local on_attach = function(client, bufnr)
   require("nvchad.configs.lspconfig").on_attach(client, bufnr)
 
-  local map = vim.keymap.map
+  local map = vim.keymap.set
   local nomap = vim.keymap.del
 
   map("n", "<leader>a", function ()
