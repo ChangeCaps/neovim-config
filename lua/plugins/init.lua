@@ -3,12 +3,14 @@ return {
     "stevearc/conform.nvim",
     opts = require "configs.conform",
   },
+
   {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
     end,
   },
+
   {
     "nvim-tree/nvim-tree.lua",
     opts = {
@@ -37,6 +39,7 @@ return {
       },
     },
   },
+
   {
     "nvimtools/none-ls.nvim",
     event = "VeryLazy",
@@ -44,19 +47,23 @@ return {
       return require "configs.none-ls"
     end,
   },
+
   {
     "nvim-telescope/telescope.nvim",
     opts = require "configs.telescope",
     lazy = false,
   },
+
   {
     "nvim-telescope/telescope-ui-select.nvim",
     lazy = false,
   },
+
   {
     "nvim-lua/plenary.nvim",
     lazy = false,
   },
+
   {
     "kdheepak/lazygit.nvim",
     cmd = {
@@ -70,12 +77,22 @@ return {
       "nvim-lua/plenary.nvim",
     },
   },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "User FilePost",
+    opts = function()
+      return require "configs.gitsigns"
+    end,
+  },
+
   {
     "hrsh7th/nvim-cmp",
     opts = function()
       return require "configs.cmp"
     end
   },
+
   {
     "rust-lang/rust.vim",
     ft = "rust",
@@ -83,6 +100,7 @@ return {
       vim.g.rustfmt_autosave = 1
     end,
   },
+
   {
     "simrat39/rust-tools.nvim",
     ft = "rust",
@@ -94,20 +112,24 @@ return {
       require("rust-tools").setup(opts)
     end,
   },
+
   {
     "ionide/Ionide-vim",
     ft = "fsharp",
   },
+
   {
     "godlygeek/tabular",
     lazy = false,
   },
+
   {
     "mfussenegger/nvim-dap",
     config = function()
       return require "configs.dap"
     end,
   },
+
   {
     "saecki/crates.nvim",
     dependencies = "hrsh7th/nvim-cmp",
@@ -118,6 +140,7 @@ return {
       crates.show()
     end
   },
+
   {
     "catppuccin/nvim",
     priority = 1000,
@@ -131,6 +154,7 @@ return {
       vim.cmd.colorscheme "catppuccin"
     end
   },
+
   {
     "zbirenbaum/copilot.lua",
     lazy = false,
@@ -146,14 +170,17 @@ return {
       require("copilot").setup(opts)
     end,
   },
+
   {
     "ziglang/zig.vim",
     ft = { "zig" },
   },
+
   {
     "DingDean/wgsl.vim",
     ft = "wgsl",
   },
+
   {
     -- glsl
     "tikhomirov/vim-glsl",
