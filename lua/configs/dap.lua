@@ -13,7 +13,40 @@ dap.adapters.gdb = {
   args = { "-i", "dap" },
 }
 
-local cxx = {
+local map = vim.keymap.set
+
+local function get_arguments(apply)
+  local win = require("plenary.popup").create("", {
+    title = "DAP Arguments",
+    style = "minimal",
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    relative = "window",
+    borderhighlight = "RenamerBorder",
+    titlehighlight = "RenamerTitle",
+    focusable = true,
+    width = 40,
+    height = 1,
+  })
+
+  vim.cmd("normal A")
+  vim.cmd("startinsert")
+
+  map({ "i", "n"}, "<Esc>", function()
+    apply("")
+    vim.api.nvim_win_close(win, true)
+    vim.cmd.stopinsert()
+  end, { buffer = 0 })
+
+  map({ "i", "n"}, "<CR>", function()
+    local line = vim.trim(vim.fn.getline("."))
+    vim.api.nvim_win_close(win, true)
+    vim.cmd.stopinsert()
+
+    apply(line)
+  end, { buffer = 0 })
+end
+
+local c = {
   {
     name = "Launch",
     type = "gdb",
@@ -28,11 +61,19 @@ local cxx = {
           attach_mappings = function(bufnr)
             actions.select_default:replace(function()
               actions.close(bufnr)
-              coroutine.resume(coro, action_state.get_selected_entry()[1])
+              local path = action_state.get_selected_entry()[1]
+              coroutine.resume(coro, path)
             end)
             return true
           end,
         }):find()
+      end)
+    end,
+    args = function()
+      return coroutine.create(function(coro)
+        get_arguments(function(args)
+          coroutine.resume(coro, args)
+        end)
       end)
     end,
     cwd = "${workspaceFolder}",
@@ -40,5 +81,5 @@ local cxx = {
   },
 }
 
-dap.configurations.c = cxx
-dap.configurations.cpp = cxx
+dap.configurations.c = c
+dap.configurations.cpp = c

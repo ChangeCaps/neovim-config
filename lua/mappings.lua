@@ -74,13 +74,11 @@ map("n", "<F4>", function()
   require('dap').run_last()
 end, { desc = "Debug Run last configuration" })
 
-map("n", "<F5>", "<cmd> RustDebuggables <CR>", { desc = "Debug rust" })
-
-map("n", "<F6>", function()
+map("n", "<F5>", function()
   require('dap').continue()
 end, { desc = "Debug Continue" })
 
-map("n", "<F7>", function()
+map("n", "<F6>", function()
   require('dap').run_to_cursor()
 end, { desc = "Debug Run to cursor" })
 
