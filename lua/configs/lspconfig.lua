@@ -4,11 +4,11 @@ require("nvchad.configs.lspconfig").defaults()
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
-local map = vim.keymap.map
-local nomap = vim.keymap.del
-
 local on_attach = function(client, bufnr)
   require("nvchad.configs.lspconfig").on_attach(client, bufnr)
+
+  local map = vim.keymap.map
+  local nomap = vim.keymap.del
 
   map("n", "<leader>a", function ()
     vim.lsp.buf.code_action()
