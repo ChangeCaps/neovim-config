@@ -14,7 +14,7 @@ local on_attach = function(client, bufnr)
     vim.lsp.buf.code_action()
   end, { desc = "LSP code action", buffer = bufnr })
   map("n", "<leader>r", function()
-    vim.lsp.buf.rename()
+    require("nvchad.lsp.renamer")()
   end, { desc = "LSP rename", buffer = bufnr })
   map("n", "H", function()
     vim.lsp.buf.declaration()
@@ -25,6 +25,7 @@ local on_attach = function(client, bufnr)
 
   nomap("n", "<leader>wa", { buffer = bufnr })
   nomap("n", "<leader>wr", { buffer = bufnr })
+  nomap("n", "<leader>ra", { buffer = bufnr })
 end
 
 -- java
