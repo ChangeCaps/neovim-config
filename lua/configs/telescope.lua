@@ -9,6 +9,8 @@ M.defaults = {
   }
 }
 
-table.insert(M.extensions_list, "ui-select")
+M.extensions = {
+  ["ui-select"] = {}
+}
 
 return M
