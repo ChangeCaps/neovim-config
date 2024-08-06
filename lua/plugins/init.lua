@@ -12,7 +12,7 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     opts = {
-      on_attach = require 'custom.nvim-tree',
+      on_attach = require 'config.nvim-tree',
       auto_reload_on_write = true,
       reload_on_bufenter = true,
       view = {
