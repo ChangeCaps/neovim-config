@@ -1,61 +1,39 @@
--- Add Run command
-vim.api.nvim_create_user_command(
-  "Run",
-  function()
-    require("custom.cargo").run()
-  end,
-  { nargs = 0 }
-)
+vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
+vim.g.mapleader = " "
 
-local copyright = [[
-// Copyright (C) %year%  %author%
-// See end of file for license information.
-]]
+-- bootstrap lazy and all plugins
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
-local agpl = [[
-// This file is part of %project%.
-// Copyright (C) %year%  %author%
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as
-// published by the Free Software Foundation, either version 3 of the
-// License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-]]
+if not vim.loop.fs_stat(lazypath) then
+  local repo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+end
 
-vim.api.nvim_create_user_command(
-  "AGPL",
-  function()
-    local year = os.date("%Y")
-  end,
-  { nargs = 0 }
-)
+vim.opt.rtp:prepend(lazypath)
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+local lazy_config = require "configs.lazy"
 
--- Set relative line numbers
-vim.opt.relativenumber = true
-
--- Set tab width to 2 for select files
-vim.api.nvim_create_autocmd(
-  { "BufEnter", "BufWinEnter" },
+-- load plugins
+require("lazy").setup({
   {
-    pattern = { "*.gd", "*.nix", "*.lua", "Makefile" },
-    callback = function()
-      vim.bo.tabstop = 2
-      vim.bo.softtabstop = 2
-      vim.bo.shiftwidth = 2
-    end
-  }
-)
+    "NvChad/NvChad",
+    lazy = false,
+    branch = "v2.5",
+    import = "nvchad.plugins",
+    config = function()
+      require "options"
+    end,
+  },
 
-vim.o.guifont = "FiraCode Nerd Font:h10"
+  { import = "plugins" },
+}, lazy_config)
+
+-- load theme
+dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "statusline")
+
+require "nvchad.autocmds"
+
+vim.schedule(function()
+  require "mappings"
+end)
