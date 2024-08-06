@@ -27,7 +27,9 @@ map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", {
   desc = "Open LazyGit Filter Current File"
 })
 
-map("n", "<leader>w", ":w<CR>", { desc = "Save File" })
+map("n", "<leader>w", function()
+  vim.api.nvim_command('w')
+end, { desc = "Save file" })
 map("n", "<C-h>", "_", { desc = "Move to start of line" })
 map("n", "<C-l>", "$", { desc = "Move to end of line" })
 map("n", "<C-k>", "10k", { desc = "Move up quick" })
