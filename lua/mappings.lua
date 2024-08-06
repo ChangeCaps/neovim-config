@@ -13,33 +13,33 @@ nomap("n", "<leader>rn")
 
 -- LazyGit 
 map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
-  desc = "Open LazyGit"
+  desc = "LazyGit Open"
 })
 map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>", {
-  desc = "Open LazyGit Config"
+  desc = "LazyGit Open Config"
 })
 map("n", "<leader>gf", "<cmd>LazyGitCurrentFile <CR>", {
-  desc = "Open LazyGit Current File"
+  desc = "LazyGit Open Current File"
 })
 map("n", "<leader>gF", "<cmd>LazyGitFilter <CR>", {
-  desc = "Open LazyGit Filter"
+  desc = "LazyGit Open Filter"
 })
 map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", {
-  desc = "Open LazyGit Filter Current File"
+  desc = "LazyGit Open Filter Current File"
 })
 
 map("n", "<leader>w", function()
   vim.api.nvim_command('w')
 end, { desc = "Save file" })
-map("n", "<C-h>", "_", { desc = "Move to start of line" })
-map("n", "<C-l>", "$", { desc = "Move to end of line" })
+map("n", "<C-h>", "_", { desc = "Move start of line" })
+map("n", "<C-l>", "$", { desc = "Move end of line" })
 map("n", "<C-k>", "10k", { desc = "Move up quick" })
 map("n", "<C-j>", "10j", { desc = "Move down quick" })
 map("n", "K", "<cmd> m -2 <CR>")
 map("n", "J", "<cmd> m +1 <CR>")
 
-map("v", "<C-h>", "_", { desc = "Move to start of line" })
-map("v", "<C-l>", "$", { desc = "Move to end of line" })
+map("v", "<C-h>", "_", { desc = "Move start of line" })
+map("v", "<C-l>", "$", { desc = "Move end of line" })
 map("v", "<C-k>", "10k", { desc = "Move up quick" })
 map("v", "<C-j>", "10j", { desc = "Move down quick" })
 map("v", "K", "<cmd>'<,'> m '<-2 <CR> gv==gv")
@@ -63,29 +63,29 @@ end
 
 map("n", "<leader>d", function()
   require('dap').toggle_breakpoint()
-end, { desc = "Toggle breakpoint" })
+end, { desc = "Debug Toggle breakpoint" })
 map("n", "<leader>D", function()
   require('dap').clear_breakpoints()
-end, { desc = "Clear breakpoints" })
+end, { desc = "Debug Clear breakpoints" })
 map("n", "<F4>", function()
   require('dap').run_last()
-end, { desc = "Run last configuration" })
+end, { desc = "Debug Run last configuration" })
 map("n", "<F5>", "<cmd> RustDebuggables <CR>", { desc = "Debug rust" })
 map("n", "<F6>", function()
   require('dap').continue()
-end, { desc = "Continue" })
+end, { desc = "Debug Continue" })
 map("n", "<F7>", function()
   require('dap').run_to_cursor()
-end, { desc = "Run to cursor" })
+end, { desc = "Debug Run to cursor" })
 map("n", "<F10>", function()
   require('dap').step_over()
-end, { desc = "Step over" })
+end, { desc = "Debug Step over" })
 map("n", "<F11>", function()
   require('dap').step_into()
-end, { desc = "Step into" })
+end, { desc = "Debug Step into" })
 map("n", "<F12>", function()
   require('dap').step_out()
-end, { desc = "Step out" })
+end, { desc = "Debug Step out" })
 
 local sidebar = nil
 map("n", "<F8>", function()
@@ -100,4 +100,4 @@ map("n", "<F8>", function()
   end
 
   sidebar.toggle()
-end, { desc = "Open debugging sidebar" })
+end, { desc = "Debug Open sidebar" })

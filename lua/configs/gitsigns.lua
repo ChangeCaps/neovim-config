@@ -6,7 +6,7 @@ M.on_attach = function(bufnr)
 
   local nomap = vim.keymap.del
 
-  nomap("n", "<leader>rh")
+  nomap("n", "<leader>rh", { buffer = bufnr })
 end
 
 return M
