@@ -1,4 +1,4 @@
-local M = require "plugins.configs.telescope"
+local M = {}
 
 M.defaults.mappings.i = {
   ["<C-j>"] = "move_selection_next",
