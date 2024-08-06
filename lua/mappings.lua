@@ -98,17 +98,3 @@ map("n", "<F8>", function()
 
   sidebar.toggle()
 end, { desc = "Open debugging sidebar" })
-
-
-map("n", "<leader>a", function ()
-  vim.lsp.buf.code_action()
-end, { desc = "LSP code action" })
-map("n", "<leader>r", function()
-  vim.lsp.buf.rename()
-end, { desc = "LSP rename" })
-map("n", "H", function()
-  vim.lsp.buf.declaration()
-end, { desc = "LSP declaration" })
-map("n", "L", function()
-  vim.lsp.buf.hover()
-end, { desc = "LSP hover" })
