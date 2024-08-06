@@ -9,6 +9,7 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 
 nomap("n", "<leader>wk")
 nomap("n", "<leader>wK")
+nomap("n", "<leader>rn")
 
 -- LazyGit 
 map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
