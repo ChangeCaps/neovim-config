@@ -1,16 +1,26 @@
 local cmp = require("cmp")
 
-local M = {}
+local M = require("nvchad.configs.cmp")
 
-M.mapping = {
-  ["<Tab>"] = cmp.mapping.complete(),
-  ["<S-Tab"] = cmp.mapping.select_next_item(),
-  ["<C-j>"] = cmp.mapping.select_next_item(),
-  ["<C-k>"] = cmp.mapping.select_prev_item(),
-}
+M.mapping["<Tab>"] = cmp.mapping(function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif require("luasnip").expand_or_jumpable() then
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes(
+      "<Plug>luasnip-expand-or-jump",
+      true,
+      true,
+      true
+    ), "")
+  else
+    fallback()
+  end
+end)
 
-M.sources = {
-  { name = "crates" },
-}
+M.mapping["<S-Tab"] = cmp.mapping.select_next_item()
+M.mapping["<C-j>"] = cmp.mapping.select_next_item()
+M.mapping["<C-k>"] = cmp.mapping.select_prev_item()
+
+table.insert(M.sources, { name = "crates" })
 
 return M

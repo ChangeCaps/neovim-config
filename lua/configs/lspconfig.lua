@@ -1,24 +1,69 @@
 -- load defaults i.e lua_lsp
 require("nvchad.configs.lspconfig").defaults()
 
+local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
--- EXAMPLE
-local servers = { "html", "cssls" }
-local nvlsp = require "nvchad.configs.lspconfig"
+local nomap = vim.keymap.del
 
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
+local on_attach = function(client, bufnr)
+  require("nvchad.configs.lspconfig").on_attach(client, bufnr)
+
+  nomap("n", "<leader>wa")
+  nomap("n", "<leader>wr")
 end
 
--- configuring single server, example: typescript
--- lspconfig.tsserver.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
+-- java
+lspconfig.jdtls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
+-- c/c++
+lspconfig.clangd.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- html
+lspconfig.html.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- python
+lspconfig.pyright.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- css
+lspconfig.cssls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- godot
+lspconfig.gdscript.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- javascript
+lspconfig.tsserver.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- nix
+lspconfig.nixd.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- zig
+lspconfig.zls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  root_dir = lspconfig.util.root_pattern("build.zig", ".git"),
+})

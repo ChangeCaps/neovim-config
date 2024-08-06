@@ -3,14 +3,29 @@ require "nvchad.mappings"
 -- add yours here
 
 local map = vim.keymap.set
+local nomap = vim.keymap.del
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 
-map("n", "<leader>gg", "<cmd>LazyGit <CR>", { desc = "Open LazyGit" })
-map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>", { desc = "Open LazyGit Config" })
-map("n", "<leader>gf", "<cmd>LazyGitCurrentFile <CR>", { desc = "Open LazyGit Current File" })
-map("n", "<leader>gF", "<cmd>LazyGitFilter <CR>", { desc = "Open LazyGit Filter" })
-map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", { desc = "Open LazyGit Filter Current File" })
+nomap("n", "<leader>wk")
+nomap("n", "<leader>wK")
+
+-- LazyGit 
+map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
+  desc = "Open LazyGit"
+})
+map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>", {
+  desc = "Open LazyGit Config"
+})
+map("n", "<leader>gf", "<cmd>LazyGitCurrentFile <CR>", {
+  desc = "Open LazyGit Current File"
+})
+map("n", "<leader>gF", "<cmd>LazyGitFilter <CR>", {
+  desc = "Open LazyGit Filter"
+})
+map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", {
+  desc = "Open LazyGit Filter Current File"
+})
 
 map("n", "<leader>w", ":w<CR>", { desc = "Save File" })
 map("n", "<C-h>", "_", { desc = "Move to start of line" })
