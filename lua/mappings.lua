@@ -61,28 +61,37 @@ for i = 1, 9 do
 end
 
 
+-- Debugging
 map("n", "<leader>d", function()
   require('dap').toggle_breakpoint()
 end, { desc = "Debug Toggle breakpoint" })
-map("n", "<leader>D", function()
+
+map("n", "<leader>dd", function()
   require('dap').clear_breakpoints()
 end, { desc = "Debug Clear breakpoints" })
+
 map("n", "<F4>", function()
   require('dap').run_last()
 end, { desc = "Debug Run last configuration" })
+
 map("n", "<F5>", "<cmd> RustDebuggables <CR>", { desc = "Debug rust" })
+
 map("n", "<F6>", function()
   require('dap').continue()
 end, { desc = "Debug Continue" })
+
 map("n", "<F7>", function()
   require('dap').run_to_cursor()
 end, { desc = "Debug Run to cursor" })
+
 map("n", "<F10>", function()
   require('dap').step_over()
 end, { desc = "Debug Step over" })
+
 map("n", "<F11>", function()
   require('dap').step_into()
 end, { desc = "Debug Step into" })
+
 map("n", "<F12>", function()
   require('dap').step_out()
 end, { desc = "Debug Step out" })
