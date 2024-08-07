@@ -56,7 +56,14 @@ local c = {
         local opts = {}
         pickers.new(opts, {
           prompt_title = "Path to executable",
-          finder = finders.new_oneshot_job({ "fd", "--no-ignore", "--type", "x" }, {}),
+          finder = finders.new_oneshot_job({
+            "fd",
+            "--no-ignore",
+            "--exclude",
+            "lute-cache",
+            "--type",
+            "x",
+          }, {}),
           sorter = config.generic_sorter(opts),
           attach_mappings = function(bufnr)
             actions.select_default:replace(function()
