@@ -1,9 +1,33 @@
--- Add Run command
+-- Add Commands
+local function build()
+  require("cargo").build()
+end
+
+local function run()
+  require("cargo").run()
+end
+
+vim.api.nvim_create_user_command(
+  "Build",
+  build,
+  { nargs = 0 }
+)
+
+vim.api.nvim_create_user_command(
+  "B",
+  build,
+  { nargs = 0 }
+)
+
 vim.api.nvim_create_user_command(
   "Run",
-  function()
-    require("cargo").run()
-  end,
+  run,
+  { nargs = 0 }
+)
+
+vim.api.nvim_create_user_command(
+  "R",
+  run,
   { nargs = 0 }
 )
 

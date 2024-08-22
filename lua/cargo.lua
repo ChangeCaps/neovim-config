@@ -43,15 +43,47 @@ local function get_targets()
   return targets
 end
 
-M.run = function()
+local function select_target(on_select)
   local targets = get_targets()
 
   vim.ui.select(targets, {
-    prompt = "Select target to run",
+    prompt = "Select target",
     format_item = function(item)
       return item.name .. " (" .. item.kind[1] .. ")"
     end
-  }, function(target)
+  }, on_select)
+end
+
+M.build = function()
+  select_target(function(target)
+    if target == nil then
+      return
+    end
+
+    local command = "cargo build --" .. target.kind[1] .. " " .. target.name
+    local prev_buf = vim.api.nvim_get_current_buf()
+
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_create_buf(false, true)
+
+    vim.api.nvim_win_set_buf(win, buf)
+
+    vim.fn.termopen(command, {
+      on_exit = function(_, _, _)
+        local function close ()
+          vim.api.nvim_win_set_buf(win, prev_buf)
+          vim.api.nvim_buf_delete(buf, { force = true })
+        end
+
+        vim.keymap.set("n", "<CR>", close, { buffer = buf })
+          vim.keymap.set("n", "q", close, { buffer = buf })
+        end
+    })
+  end)
+end
+
+M.run = function()
+  select_target(function(target)
     if target == nil then
       return
     end
@@ -65,15 +97,15 @@ M.run = function()
     vim.api.nvim_win_set_buf(win, buf)
 
     vim.fn.termopen(command, {
-        on_exit = function(_, _, _)
-          local function close ()
-            vim.api.nvim_win_set_buf(win, prev_buf)
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end
-
-          vim.keymap.set("n", "<CR>", close, { buffer = buf })
-          vim.keymap.set("n", "q", close, { buffer = buf })
+      on_exit = function(_, _, _)
+        local function close ()
+          vim.api.nvim_win_set_buf(win, prev_buf)
+          vim.api.nvim_buf_delete(buf, { force = true })
         end
+
+        vim.keymap.set("n", "<CR>", close, { buffer = buf })
+        vim.keymap.set("n", "q", close, { buffer = buf })
+      end
     })
   end)
 end
