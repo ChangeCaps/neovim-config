@@ -11,9 +11,6 @@ nomap("n", "<leader>wk")
 nomap("n", "<leader>wK")
 nomap("n", "<leader>rn")
 nomap("n", "<leader>ds")
-nomap("n", "<leader>ca")
-nomap("v", "<leader>ca")
-nomap("n", "<leader>D")
 
 -- LazyGit 
 map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
