@@ -2,7 +2,7 @@
 vim.api.nvim_create_user_command(
   "Run",
   function()
-    require("custom.cargo").run()
+    require("cargo").run()
   end,
   { nargs = 0 }
 )
