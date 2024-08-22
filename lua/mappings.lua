@@ -29,70 +29,83 @@ map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", {
 })
 
 map("n", "<leader>w", function()
-  vim.api.nvim_command('w')
-end, { desc = "Save file" })
+  if vim.bo.modified then
+    vim.api.nvim_command('w')
+  end
+end, { desc = "Buffer save" })
 map("n", "<C-h>", "_", { desc = "Move start of line" })
 map("n", "<C-l>", "$", { desc = "Move end of line" })
 map("n", "<C-k>", "10k", { desc = "Move up quick" })
 map("n", "<C-j>", "10j", { desc = "Move down quick" })
-map("n", "K", "<cmd> m -2 <CR>")
-map("n", "J", "<cmd> m +1 <CR>")
+map("n", "K", "<cmd> m -2 <CR>", { desc = "Move line up" })
+map("n", "J", "<cmd> m +1 <CR>", { desc = "Move line down" })
 
 map("v", "<C-h>", "_", { desc = "Move start of line" })
 map("v", "<C-l>", "$", { desc = "Move end of line" })
 map("v", "<C-k>", "10k", { desc = "Move up quick" })
 map("v", "<C-j>", "10j", { desc = "Move down quick" })
-map("v", "K", "<cmd>'<,'> m '<-2 <CR> gv==gv")
-map("v", "J", "<cmd>'<,'> m '>+1 <CR> gv=gv")
 
 map("n", "<leader>h", "<C-w>h", { desc = "Move window left" })
 map("n", "<leader>j", "<C-w>j", { desc = "Move window down" })
 map("n", "<leader>k", "<C-w>k", { desc = "Move window up" })
 map("n", "<leader>l", "<C-w>l", { desc = "Move window right" })
-map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "Telescope Files" })
+map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "Telescope find files" })
 
-map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Close current buffer" })
+map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
 
-map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Create new tab" })
-map("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Close tab" })
+map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Tab new" })
+map("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Tab close" })
 
 for i = 1, 9 do
-  map("n", "<leader>" .. i, "<cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
+  map("n", "<leader>" .. i, "<cmd>tabnext " .. i .. "<CR>", { desc = "Tab go to " .. i })
 end
 
+-- LSP
+map("n", "<leader>a", function()
+  vim.lsp.buf.code_action()
+end, { desc = "Lsp code action" })
+map("n", "<leader>r", function()
+  require("nvchad.lsp.renamer")()
+end, { desc = "Lsp rename" })
+map("n", "H", function()
+  vim.lsp.buf.declaration()
+end, { desc = "Lsp declaration" })
+map("n", "L", function()
+  vim.lsp.buf.hover()
+end, { desc = "Lsp hover" })
 
 -- Debugging
 map("n", "<leader>d", function()
   require('dap').toggle_breakpoint()
-end, { desc = "Debug Toggle breakpoint" })
+end, { desc = "Debug toggle breakpoint" })
 
 map("n", "<leader>dd", function()
   require('dap').clear_breakpoints()
-end, { desc = "Debug Clear breakpoints" })
+end, { desc = "Debug clear breakpoints" })
 
 map("n", "<F4>", function()
   require('dap').run_last()
-end, { desc = "Debug Run last configuration" })
+end, { desc = "Debug run last configuration" })
 
 map("n", "<F6>", function()
   require('dap').run_to_cursor()
-end, { desc = "Debug Run to cursor" })
+end, { desc = "Debug run to cursor" })
 
 map("n", "<F9>", function()
   require('dap').step_over()
-end, { desc = "Debug Step over" })
+end, { desc = "Debug step over" })
 
 map("n", "<F10>", function()
   require('dap').step_into()
-end, { desc = "Debug Step into" })
+end, { desc = "Debug step into" })
 
 map("n", "<F11>", function()
   require('dap').step_out()
-end, { desc = "Debug Step out" })
+end, { desc = "Debug step out" })
 
 map("n", "<F12>", function()
   require('dap').step_into({ askForTargets = true })
-end, { desc = "Debug Step into target" })
+end, { desc = "Debug step into target" })
 
 local sidebar = nil
 map("n", "<F8>", function()
@@ -203,4 +216,4 @@ map("n", "<F5>", function()
       })
     end)
   end)
-end, { desc = "Debug Continue" })
+end, { desc = "Debug continue" })
