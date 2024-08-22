@@ -74,29 +74,29 @@ map("n", "<F4>", function()
   require('dap').run_last()
 end, { desc = "Debug Run last configuration" })
 
-map("n", "<F5>", function()
-  require('dap').continue()
-end, { desc = "Debug Continue" })
-
 map("n", "<F6>", function()
   require('dap').run_to_cursor()
 end, { desc = "Debug Run to cursor" })
 
-map("n", "<F10>", function()
+map("n", "<F9>", function()
   require('dap').step_over()
 end, { desc = "Debug Step over" })
 
-map("n", "<F11>", function()
+map("n", "<F10>", function()
   require('dap').step_into()
 end, { desc = "Debug Step into" })
 
-map("n", "<F12>", function()
+map("n", "<F11>", function()
   require('dap').step_out()
 end, { desc = "Debug Step out" })
 
+map("n", "<F12>", function()
+  require('dap').step_into({ askForTargets = true })
+end, { desc = "Debug Step into target" })
+
 local sidebar = nil
 map("n", "<F8>", function()
-  local widgets = require "dap.ui.widgets"
+  local widgets = require("dap.ui.widgets")
 
   if sidebar == nil then
     local winopts = {
@@ -108,3 +108,99 @@ map("n", "<F8>", function()
 
   sidebar.toggle()
 end, { desc = "Debug Open sidebar" })
+
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local config = require("telescope.config").values
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+
+local function get_executable(apply)
+  local opts = {}
+  pickers.new(opts, {
+    prompt_title = "Path to executable",
+    finder = finders.new_oneshot_job({
+      "fd",
+      "--no-ignore",
+      "--exclude",
+      "lute-cache",
+      "--exclude",
+      "target/*/build",
+      "--exclude",
+      "target/*/deps",
+      "--exclude",
+      "*.so",
+      "--type",
+      "x",
+    }, {}),
+    sorter = config.generic_sorter(opts),
+    attach_mappings = function(bufnr)
+      actions.select_default:replace(function()
+        actions.close(bufnr)
+        local path = action_state.get_selected_entry()[1]
+        apply(path)
+      end)
+      return true
+    end,
+  }):find()
+end
+
+local function get_arguments(apply)
+  local win = require("plenary.popup").create("", {
+    title = "DAP Arguments",
+    style = "minimal",
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    relative = "window",
+    borderhighlight = "RenamerBorder",
+    titlehighlight = "RenamerTitle",
+    focusable = true,
+    width = 40,
+    height = 1,
+  })
+
+  vim.cmd("normal A")
+  vim.cmd("startinsert")
+
+  map({ "i", "n"}, "<Esc>", function()
+    apply("")
+    vim.api.nvim_win_close(win, true)
+    vim.cmd.stopinsert()
+  end, { buffer = 0 })
+
+  map({ "i", "n"}, "<CR>", function()
+    local line = vim.trim(vim.fn.getline("."))
+    vim.api.nvim_win_close(win, true)
+    vim.cmd.stopinsert()
+
+    apply(line)
+  end, { buffer = 0 })
+end
+
+map("n", "<F5>", function()
+  local dap = require('dap')
+
+  if dap.session() then
+    dap.continue()
+    return
+  end
+
+  local type = "gdb"
+
+  if vim.bo.filetype == "rust" then
+    type = "rust-gdb"
+  end
+
+  get_executable(function(exec)
+    get_arguments(function(args)
+      dap.run({
+        name = "Launch",
+        request = "launch",
+        type = type,
+        program = exec,
+        args = args,
+        cwd = "${workspaceFolder}",
+        stopAtEntry = true,
+      })
+    end)
+  end)
+end, { desc = "Debug Continue" })
