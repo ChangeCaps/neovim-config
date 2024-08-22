@@ -46,7 +46,7 @@ local function get_arguments(apply)
   end, { buffer = 0 })
 end
 
-local c = {
+local gdb = {
   {
     name = "Launch",
     type = "gdb",
@@ -88,5 +88,6 @@ local c = {
   },
 }
 
-dap.configurations.c = c
-dap.configurations.cpp = c
+dap.configurations.c = gdb
+dap.configurations.cpp = gdb
+dap.configurations.rust = gdb
