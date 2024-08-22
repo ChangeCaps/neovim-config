@@ -10,6 +10,10 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 nomap("n", "<leader>wk")
 nomap("n", "<leader>wK")
 nomap("n", "<leader>rn")
+nomap("n", "<leader>ds")
+nomap("n", "<leader>ca")
+nomap("v", "<leader>ca")
+nomap("n", "<leader>D")
 
 -- LazyGit 
 map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
@@ -63,16 +67,16 @@ end
 -- LSP
 map("n", "<leader>a", function()
   vim.lsp.buf.code_action()
-end, { desc = "Lsp code action" })
+end, { desc = "LSP code action" })
 map("n", "<leader>r", function()
   require("nvchad.lsp.renamer")()
-end, { desc = "Lsp rename" })
+end, { desc = "LSP rename" })
 map("n", "H", function()
   vim.lsp.buf.declaration()
-end, { desc = "Lsp declaration" })
+end, { desc = "LSP declaration" })
 map("n", "L", function()
   vim.lsp.buf.hover()
-end, { desc = "Lsp hover" })
+end, { desc = "LSP hover" })
 
 -- Debugging
 map("n", "<leader>d", function()
