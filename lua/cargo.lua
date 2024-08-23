@@ -2,6 +2,10 @@ local Job = require("plenary.job")
 
 local M = {}
 
+---@class cargo.Target
+---@field name string
+---@field kind string[]
+
 local function get_metadata()
   local job = Job:new({
     command = "cargo",
@@ -22,8 +26,11 @@ local function is_package_in_workspace(metadata, package_id)
     return false
 end
 
+---@param target cargo.Target
+---@param kinds string[]
+---@return boolean
 local function is_valid_target(target, kinds)
-  for kind in kinds do
+  for _, kind in ipairs(kinds) do
     if target.kind[1] == kind then
       return true
     end
@@ -32,6 +39,8 @@ local function is_valid_target(target, kinds)
   return false
 end
 
+---@param kinds string[]
+---@return cargo.Target[]
 local function get_targets(kinds)
   if kinds == nil then
     kinds = { "lib", "bin", "example", "test", "bench" }
@@ -53,13 +62,22 @@ local function get_targets(kinds)
   return targets
 end
 
+---@param kinds string[]
+---@param on_select fun(target: cargo.Target)
 local function select_target(kinds, on_select)
   local targets = get_targets(kinds)
+
+  local max_name_length = 0
+
+  for _, target in ipairs(targets) do
+    max_name_length = math.max(max_name_length, #target.name)
+  end
 
   vim.ui.select(targets, {
     prompt = "Select target",
     format_item = function(item)
-      return item.name .. " (" .. item.kind[1] .. ")"
+      local whitespace = string.rep(" ", math.max(max_name_length - #item.name, 0))
+      return item.name .. whitespace .. " - " .. item.kind[1]
     end
   }, on_select)
 end
