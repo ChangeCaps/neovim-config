@@ -1,4 +1,8 @@
 -- Add Commands
+local function check()
+  require("cargo").check()
+end
+
 local function build()
   require("cargo").build()
 end
@@ -7,29 +11,16 @@ local function run()
   require("cargo").run()
 end
 
-vim.api.nvim_create_user_command(
-  "Build",
-  build,
-  { nargs = 0 }
-)
+local function create_command(name, fn)
+  vim.api.nvim_create_user_command(name, fn, { nargs = 0 })
+end
 
-vim.api.nvim_create_user_command(
-  "B",
-  build,
-  { nargs = 0 }
-)
-
-vim.api.nvim_create_user_command(
-  "Run",
-  run,
-  { nargs = 0 }
-)
-
-vim.api.nvim_create_user_command(
-  "R",
-  run,
-  { nargs = 0 }
-)
+create_command("Check", check)
+create_command("C", check)
+create_command("Build", build)
+create_command("B", build)
+create_command("Run", run)
+create_command("R", run)
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
