@@ -1,4 +1,5 @@
 local Job = require("plenary.job")
+local run = require("run")
 
 local M = {}
 
@@ -127,8 +128,8 @@ M.build = function()
           end
 
           vim.keymap.set("n", "<CR>", close, { buffer = buf })
-            vim.keymap.set("n", "q", close, { buffer = buf })
-          end
+          vim.keymap.set("n", "q", close, { buffer = buf })
+        end
       })
     end
   )
@@ -138,29 +139,40 @@ M.run = function()
   select_target(
     { "bin", "example", "test", "bench" },
     function(target)
-      if target == nil then
-        return
+      local function run_target(args)
+        if target == nil then
+          return
+        end
+
+        local command = "cargo run --" ..
+          target.kind[1] .. " " ..
+          target.name .. " -- " .. args
+
+        local prev_buf = vim.api.nvim_get_current_buf()
+
+        local win = vim.api.nvim_get_current_win()
+        local buf = vim.api.nvim_create_buf(false, true)
+
+        vim.api.nvim_win_set_buf(win, buf)
+
+        vim.fn.termopen(command, {
+          on_exit = function(_, _, _)
+            local function close ()
+              vim.api.nvim_win_set_buf(win, prev_buf)
+              vim.api.nvim_buf_delete(buf, { force = true })
+            end
+
+            vim.keymap.set("n", "<CR>", close, { buffer = buf })
+            vim.keymap.set("n", "q", close, { buffer = buf })
+          end
+        })
       end
 
-      local command = "cargo run --" .. target.kind[1] .. " " .. target.name
-      local prev_buf = vim.api.nvim_get_current_buf()
-
-      local win = vim.api.nvim_get_current_win()
-      local buf = vim.api.nvim_create_buf(false, true)
-
-      vim.api.nvim_win_set_buf(win, buf)
-
-      vim.fn.termopen(command, {
-        on_exit = function(_, _, _)
-          local function close ()
-            vim.api.nvim_win_set_buf(win, prev_buf)
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end
-
-          vim.keymap.set("n", "<CR>", close, { buffer = buf })
-          vim.keymap.set("n", "q", close, { buffer = buf })
-        end
-      })
+      if target.kind[1] == "bin" or target.kind[1] == "example" then
+        run.get_arguments(run_target)
+      else
+        run_target("")
+      end
     end
   )
 end
