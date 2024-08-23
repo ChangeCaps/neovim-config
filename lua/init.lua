@@ -51,4 +51,4 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-vim.o.guifont = "FiraCode Nerd Font:h10"
+vim.o.guifont = "FiraCode Nerd Font:h10:#e-subpixelantialias"
