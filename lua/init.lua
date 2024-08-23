@@ -7,8 +7,16 @@ local function build()
   require("cargo").build()
 end
 
+local function build_last()
+  require("cargo").build_last()
+end
+
 local function run()
   require("cargo").run()
+end
+
+local function run_last()
+  require("cargo").run_last()
 end
 
 local function create_command(name, fn)
@@ -17,10 +25,12 @@ end
 
 create_command("Check", check)
 create_command("C", check)
+
 create_command("Build", build)
-create_command("B", build)
+create_command("B", build_last)
+
 create_command("Run", run)
-create_command("R", run)
+create_command("R", run_last)
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4

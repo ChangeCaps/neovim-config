@@ -83,7 +83,8 @@ local function select_target(kinds, on_select)
   }, on_select)
 end
 
-M.check = function()
+---@param command string
+local function run_in_window(command)
   local prev_buf = vim.api.nvim_get_current_buf()
 
   local win = vim.api.nvim_get_current_win()
@@ -91,7 +92,7 @@ M.check = function()
 
   vim.api.nvim_win_set_buf(win, buf)
 
-  vim.fn.termopen("cargo check", {
+  vim.fn.termopen(command, {
     on_exit = function(_, _, _)
       local function close ()
         vim.api.nvim_win_set_buf(win, prev_buf)
@@ -104,6 +105,13 @@ M.check = function()
   })
 end
 
+local last_build_command = nil
+local last_run_command = nil
+
+M.check = function()
+  run_in_window("cargo check")
+end
+
 M.build = function()
   select_target(
     { "lib", "bin", "example", "test", "bench" },
@@ -113,59 +121,37 @@ M.build = function()
       end
 
       local command = "cargo build --" .. target.kind[1] .. " " .. target.name
-      local prev_buf = vim.api.nvim_get_current_buf()
+      last_build_command = command
 
-      local win = vim.api.nvim_get_current_win()
-      local buf = vim.api.nvim_create_buf(false, true)
-
-      vim.api.nvim_win_set_buf(win, buf)
-
-      vim.fn.termopen(command, {
-        on_exit = function(_, _, _)
-          local function close ()
-            vim.api.nvim_win_set_buf(win, prev_buf)
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end
-
-          vim.keymap.set("n", "<CR>", close, { buffer = buf })
-          vim.keymap.set("n", "q", close, { buffer = buf })
-        end
-      })
+      run_in_window(command)
     end
   )
+end
+
+M.build_last = function()
+  if last_build_command then
+    run_in_window(last_build_command)
+    return
+  end
+
+  M.build()
 end
 
 M.run = function()
   select_target(
     { "bin", "example", "test", "bench" },
     function(target)
-      local function run_target(args)
-        if target == nil then
-          return
-        end
+      if target == nil then
+        return
+      end
 
+      local function run_target(args)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
           target.name .. " -- " .. args
+        last_run_command = command
 
-        local prev_buf = vim.api.nvim_get_current_buf()
-
-        local win = vim.api.nvim_get_current_win()
-        local buf = vim.api.nvim_create_buf(false, true)
-
-        vim.api.nvim_win_set_buf(win, buf)
-
-        vim.fn.termopen(command, {
-          on_exit = function(_, _, _)
-            local function close ()
-              vim.api.nvim_win_set_buf(win, prev_buf)
-              vim.api.nvim_buf_delete(buf, { force = true })
-            end
-
-            vim.keymap.set("n", "<CR>", close, { buffer = buf })
-            vim.keymap.set("n", "q", close, { buffer = buf })
-          end
-        })
+        run_in_window(command)
       end
 
       if target.kind[1] == "bin" or target.kind[1] == "example" then
@@ -175,6 +161,15 @@ M.run = function()
       end
     end
   )
+end
+
+M.run_last = function()
+  if last_run_command then
+    run_in_window(last_run_command)
+    return
+  end
+
+  M.run()
 end
 
 return M
