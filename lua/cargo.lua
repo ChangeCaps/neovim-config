@@ -91,6 +91,7 @@ local function run_in_window(command)
   local buf = vim.api.nvim_create_buf(false, true)
 
   vim.api.nvim_win_set_buf(win, buf)
+  vim.api.nvim_input("G")
 
   vim.fn.termopen(command, {
     on_exit = function(_, _, _)
