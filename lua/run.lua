@@ -5,7 +5,7 @@ local map = vim.keymap.set
 ---@param apply fun(args: string)
 M.get_arguments = function(apply)
   local win = require("plenary.popup").create("", {
-    title = "DAP Arguments",
+    title = "Arguments",
     style = "minimal",
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     relative = "window",
