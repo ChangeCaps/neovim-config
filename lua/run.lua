@@ -20,9 +20,10 @@ M.get_arguments = function(apply)
   vim.cmd("startinsert")
 
   map({ "i", "n"}, "<Esc>", function()
-    apply("")
     vim.api.nvim_win_close(win, true)
     vim.cmd.stopinsert()
+
+    apply("")
   end, { buffer = 0 })
 
   map({ "i", "n"}, "<CR>", function()

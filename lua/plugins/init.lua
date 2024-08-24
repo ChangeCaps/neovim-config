@@ -42,6 +42,16 @@ return {
   },
 
   {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      highlight = {
+        enable = false,
+      },
+    },
+  },
+
+  {
     "nvimtools/none-ls.nvim",
     event = "VeryLazy",
     opts = function()

@@ -75,6 +75,9 @@ map("n", "L", function()
   vim.lsp.buf.hover()
 end, { desc = "LSP hover" })
 
+-- Folding
+map("n", "<S-space>", 'za', { desc = "Toggle fold" })
+
 -- Debugging
 map("n", "<leader>d", function()
   require('dap').toggle_breakpoint()
