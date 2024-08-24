@@ -64,7 +64,7 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
 -- Set foldings
-vim.opt.foldmethod = "expr"
+vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 
