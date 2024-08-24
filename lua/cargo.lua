@@ -113,6 +113,14 @@ M.check = function()
   run_in_window("cargo check")
 end
 
+M.test = function()
+  run_in_window("cargo test")
+end
+
+M.test_all = function()
+  run_in_window("cargo test --all")
+end
+
 M.build = function()
   select_target(
     { "lib", "bin", "example", "test", "bench" },

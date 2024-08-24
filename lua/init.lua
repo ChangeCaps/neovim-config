@@ -3,6 +3,14 @@ local function check()
   require("cargo").check()
 end
 
+local function test()
+  require("cargo").test()
+end
+
+local function test_all()
+  require("cargo").test_all()
+end
+
 local function build()
   require("cargo").build()
 end
@@ -25,6 +33,9 @@ end
 
 create_command("Check", check)
 create_command("C", check)
+
+create_command("Test", test_all)
+create_command("T", test)
 
 create_command("Build", build)
 create_command("B", build_last)
