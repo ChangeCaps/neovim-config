@@ -91,20 +91,18 @@ local function run_in_window(command)
   local buf = vim.api.nvim_create_buf(false, true)
 
   vim.api.nvim_win_set_buf(win, buf)
+
+  local function quit()
+    vim.api.nvim_win_set_buf(win, prev_buf)
+    vim.api.nvim_buf_delete(buf, { force = true })
+  end
+
+  vim.keymap.set("n", "q", quit, { buffer = buf })
+  vim.keymap.set("n", "<CR>", quit, { buffer = buf })
+  vim.keymap.set("n", "<ESC>", quit, { buffer = buf })
+
+  vim.fn.termopen(command)
   vim.api.nvim_input("G")
-
-  vim.fn.termopen(command, {
-    on_exit = function(_, _, _)
-      local function quit()
-        vim.api.nvim_win_set_buf(win, prev_buf)
-        vim.api.nvim_buf_delete(buf, { force = true })
-      end
-
-      vim.keymap.set("n", "q", quit, { buffer = buf })
-      vim.keymap.set("n", "<CR>", quit, { buffer = buf })
-      vim.keymap.set("n", "<ESC>", quit, { buffer = buf })
-    end
-  })
 end
 
 local last_build_command = nil

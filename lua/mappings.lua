@@ -18,8 +18,6 @@ map("n", "<leader>tm", function()
   local buf = vim.api.nvim_create_buf(false, true)
 
   vim.api.nvim_win_set_buf(win, buf)
-  vim.api.nvim_open_term(buf, {})
-  vim.api.nvim_input("a")
 
   local function quit()
     vim.api.nvim_win_set_buf(win, prev_buf)
@@ -28,6 +26,9 @@ map("n", "<leader>tm", function()
 
   map("n", "q", quit, { buffer = buf })
   map("n", "<ESC>", quit, { buffer = buf })
+
+  vim.fn.termopen("$SHELL")
+  vim.api.nvim_input("a")
 end, { desc = "Terminal open temporary" })
 
 nomap("n", "<leader>wk")
