@@ -100,8 +100,9 @@ local function run_in_window(command)
         vim.api.nvim_buf_delete(buf, { force = true })
       end
 
-      vim.keymap.set("n", "<CR>", close, { buffer = buf })
       vim.keymap.set("n", "q", close, { buffer = buf })
+      vim.keymap.set("n", "<CR>", close, { buffer = buf })
+      vim.keymap.set("n", "<ESC>", close, { buffer = buf })
     end
   })
 end
