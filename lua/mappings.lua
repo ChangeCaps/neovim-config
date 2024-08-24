@@ -100,7 +100,8 @@ map("n", "L", function()
 end, { desc = "LSP hover" })
 
 -- Folding
-map("n", "<S-space>", 'zA', { desc = "Toggle fold under cursor" })
+map("n", "<S-space>", 'za', { desc = "Toggle fold under cursor" })
+map("n", "<C-space>", 'zA', { desc = "Toggle all folds under cursor" })
 
 -- Debugging
 map("n", "<leader>d", function()
