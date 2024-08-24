@@ -18,6 +18,7 @@ map("n", "<leader>tm", function()
   local buf = vim.api.nvim_create_buf(false, true)
 
   vim.api.nvim_win_set_buf(win, buf)
+  vim.api.nvim_open_term(buf, {})
   vim.api.nvim_input("a")
 
   local function quit()
