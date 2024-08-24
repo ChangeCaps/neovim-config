@@ -95,14 +95,14 @@ local function run_in_window(command)
 
   vim.fn.termopen(command, {
     on_exit = function(_, _, _)
-      local function close ()
+      local function quit()
         vim.api.nvim_win_set_buf(win, prev_buf)
         vim.api.nvim_buf_delete(buf, { force = true })
       end
 
-      vim.keymap.set("n", "q", close, { buffer = buf })
-      vim.keymap.set("n", "<CR>", close, { buffer = buf })
-      vim.keymap.set("n", "<ESC>", close, { buffer = buf })
+      vim.keymap.set("n", "q", quit, { buffer = buf })
+      vim.keymap.set("n", "<CR>", quit, { buffer = buf })
+      vim.keymap.set("n", "<ESC>", quit, { buffer = buf })
     end
   })
 end

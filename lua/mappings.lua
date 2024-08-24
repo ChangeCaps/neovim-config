@@ -9,7 +9,25 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map("v", ";", ":", { desc = "CMD enter command mode" })
 
 -- Exit terminal mode
-map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Terminal quit" })
+
+map("n", "<leader>tm", function()
+  local prev_buf = vim.api.nvim_get_current_buf()
+
+  local win = vim.api.nvim_get_current_win()
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  vim.api.nvim_win_set_buf(win, buf)
+  vim.api.nvim_input("a")
+
+  local function quit()
+    vim.api.nvim_win_set_buf(win, prev_buf)
+    vim.api.nvim_buf_delete(buf, { force = true })
+  end
+
+  map("n", "q", quit, { buffer = buf })
+  map("n", "<ESC>", quit, { buffer = buf })
+end, { desc = "Terminal open temporary" })
 
 nomap("n", "<leader>wk")
 nomap("n", "<leader>wK")
