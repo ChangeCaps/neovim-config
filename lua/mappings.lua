@@ -6,6 +6,10 @@ local map = vim.keymap.set
 local nomap = vim.keymap.del
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
+map("v", ";", ":", { desc = "CMD enter command mode" })
+
+-- Exit terminal mode
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 nomap("n", "<leader>wk")
 nomap("n", "<leader>wK")
