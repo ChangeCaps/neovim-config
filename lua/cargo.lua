@@ -113,12 +113,14 @@ M.check = function()
   run_in_window("cargo check")
 end
 
-M.test = function()
-  run_in_window("cargo test")
-end
+M.test = function(opts)
+  local command = "cargo test"
 
-M.test_all = function()
-  run_in_window("cargo test --all")
+  if opts.all then
+    command = command .. " --all"
+  end
+
+  run_in_window(command)
 end
 
 M.build = function()
@@ -146,7 +148,11 @@ M.build_last = function()
   M.build()
 end
 
-M.run = function()
+M.run = function(opts)
+  if opts == nil then
+    opts = {}
+  end
+
   select_target(
     { "bin", "example", "test", "bench" },
     function(target)
@@ -157,7 +163,13 @@ M.run = function()
       local function run_target(args)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
-          target.name .. " -- " .. args
+          target.name
+
+        if opts.release then
+          command = command .. " --release"
+        end
+
+        command = command .. " -- " .. args
         last_run_command = command
 
         run_in_window(command)
