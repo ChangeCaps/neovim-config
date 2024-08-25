@@ -25,7 +25,7 @@ map("n", "<leader>tm", function()
   end
 
   map("n", "q", quit, { buffer = buf })
-  map("n", "<ESC>", quit, { buffer = buf })
+  map("n", "<Esc>", quit, { buffer = buf })
 
   vim.fn.termopen("$SHELL")
   vim.api.nvim_input("a")
@@ -36,20 +36,29 @@ nomap("n", "<leader>wK")
 nomap("n", "<leader>rn")
 nomap("n", "<leader>ds")
 
+local function laygitcmd(command)
+  return function()
+    vim.api.nvim_command(command);
+
+    local buf = vim.api.nvim_get_current_buf()
+    map("t", "<Esc>", "<Esc>", { buffer = buf })
+  end
+end
+
 -- LazyGit 
-map("n", "<leader>gg", "<cmd>LazyGit <CR>", {
+map("n", "<leader>gg", laygitcmd("LazyGit"), {
   desc = "LazyGit Open"
 })
-map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>", {
+map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>",{
   desc = "LazyGit Open Config"
 })
-map("n", "<leader>gf", "<cmd>LazyGitCurrentFile <CR>", {
+map("n", "<leader>gf", laygitcmd("LazyGitFiles"), {
   desc = "LazyGit Open Current File"
 })
-map("n", "<leader>gF", "<cmd>LazyGitFilter <CR>", {
+map("n", "<leader>gF", laygitcmd("LazyGitFilesAll"), {
   desc = "LazyGit Open Filter"
 })
-map("n", "<leader>gC", "<cmd>LazyGitFilterCurrentFile <CR>", {
+map("n", "<leader>gC", laygitcmd("LazyGitFilesCurrent"), {
   desc = "LazyGit Open Filter Current File"
 })
 

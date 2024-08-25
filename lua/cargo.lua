@@ -99,7 +99,7 @@ local function run_in_window(command)
 
   vim.keymap.set("n", "q", quit, { buffer = buf })
   vim.keymap.set("n", "<CR>", quit, { buffer = buf })
-  vim.keymap.set("n", "<ESC>", quit, { buffer = buf })
+  vim.keymap.set("n", "<Esc>", quit, { buffer = buf })
 
   vim.fn.termopen(command)
   vim.api.nvim_input("G")
