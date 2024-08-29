@@ -85,10 +85,11 @@ map("n", "<leader>k", "<C-w>k", { desc = "Move window up" })
 map("n", "<leader>l", "<C-w>l", { desc = "Move window right" })
 map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "Telescope find files" })
 
-map("n", "<C-H>", "<C-w><", { desc = "Window decrease width" })
-map("n", "<C-L>", "<C-w>>", { desc = "Window increase width" })
-map("n", "<C-K>", "<C-w>-", { desc = "Window decrease height" })
-map("n", "<C-J>", "<C-w>+", { desc = "Window increase height" })
+-- window resizing
+map("n", "<CS-h>", "<cmd>vertical resize -2<CR>", { desc = "Window resize left" })
+map("n", "<CS-j>", "<cmd>resize +2<CR>", { desc = "Window resize down" })
+map("n", "<CS-k>", "<cmd>resize -2<CR>", { desc = "Window resize up" })
+map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right" })
 
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
 
