@@ -157,6 +157,11 @@ map("n", "<F12>", function()
   require('dap').step_into({ askForTargets = true })
 end, { desc = "Debug step into target" })
 
+-- toggle repl
+map("n", "<F7>", function()
+  require('dap').repl.toggle()
+end, { desc = "Debug toggle repl" })
+
 local sidebar = nil
 map("n", "<F8>", function()
   local widgets = require("dap.ui.widgets")
