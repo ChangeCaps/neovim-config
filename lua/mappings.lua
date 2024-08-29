@@ -85,6 +85,11 @@ map("n", "<leader>k", "<C-w>k", { desc = "Move window up" })
 map("n", "<leader>l", "<C-w>l", { desc = "Move window right" })
 map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "Telescope find files" })
 
+map("n", "<C-H>", "<C-w><", { desc = "Window decrease width" })
+map("n", "<C-L>", "<C-w>>", { desc = "Window increase width" })
+map("n", "<C-K>", "<C-w>-", { desc = "Window decrease height" })
+map("n", "<C-J>", "<C-w>+", { desc = "Window increase height" })
+
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
 
 map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Tab new" })
