@@ -108,6 +108,18 @@ map("n", "L", function()
   vim.lsp.buf.hover()
 end, { desc = "LSP hover" })
 
+map("n", "<leader>fd", function()
+  require("telescope.builtin").diagnostics()
+end, { desc = "Telescope lsp diagnostics" })
+
+map("n", "<leader>fs", function()
+  require("telescope.builtin").lsp_dynamic_workspace_symbols()
+end, { desc = "Telescope lsp workspace symbols" })
+
+map("n", "<leader>fr", function()
+  require("telescope.builtin").lsp_references()
+end, { desc = "Telescope lsp references" })
+
 -- Folding
 map("n", "<S-space>", 'za', { desc = "Toggle fold under cursor" })
 map("n", "<C-space>", 'zA', { desc = "Toggle all folds under cursor" })

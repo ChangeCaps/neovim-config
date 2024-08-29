@@ -39,6 +39,13 @@ lspconfig.rust_analyzer.setup({
         allFeatures = true,
         loadOutDirsFromCheck = true,
       },
+      workspace = {
+        symbol = {
+          search = {
+            kind = "all_symbols",
+          },
+        },
+      },
     },
   },
 })
