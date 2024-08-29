@@ -91,6 +91,7 @@ map("n", "<CS-j>", "<cmd>resize +2<CR>", { desc = "Window resize down" })
 map("n", "<CS-k>", "<cmd>resize -2<CR>", { desc = "Window resize up" })
 map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right" })
 
+-- tabs
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
 
 map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Tab new" })
@@ -116,15 +117,15 @@ end, { desc = "LSP hover" })
 
 map("n", "<leader>fd", function()
   require("telescope.builtin").diagnostics()
-end, { desc = "Telescope lsp diagnostics" })
+end, { desc = "telescope lsp diagnostics" })
 
 map("n", "<leader>fs", function()
   require("telescope.builtin").lsp_dynamic_workspace_symbols()
-end, { desc = "Telescope lsp workspace symbols" })
+end, { desc = "telescope lsp workspace symbols" })
 
 map("n", "<leader>fr", function()
   require("telescope.builtin").lsp_references()
-end, { desc = "Telescope lsp references" })
+end, { desc = "telescope lsp references" })
 
 -- Folding
 map("n", "<S-space>", 'za', { desc = "Toggle fold under cursor" })
