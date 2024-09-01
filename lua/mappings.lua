@@ -129,7 +129,11 @@ map("n", "<leader>fd", function()
   require("telescope.builtin").diagnostics()
 end, { desc = "telescope lsp diagnostics" })
 
-map("n", "<leader>fs", function()
+map("n", "<leader>ff", function()
+  require("telescope.builtin").lsp_document_symbols()
+end, { desc = "telescope lsp document symbols" })
+
+map("n", "<leader>fF", function()
   require("telescope.builtin").lsp_dynamic_workspace_symbols()
 end, { desc = "telescope lsp workspace symbols" })
 
