@@ -46,6 +46,9 @@ lspconfig.rust_analyzer.setup({
           },
         },
       },
+      rustfmt = {
+        extraArgs = { "+nightly" },
+      },
     },
   },
 })
