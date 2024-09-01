@@ -67,8 +67,15 @@ map("n", "<leader>w", function()
     vim.api.nvim_command('w')
   end
 end, { desc = "Buffer save" })
-map("n", "<C-h>", "_", { desc = "Move start of line" })
-map("n", "<C-l>", "$", { desc = "Move end of line" })
+
+-- Use visual lines for jk
+map("n", "j", "gj")
+map("n", "k", "gk")
+map("v", "j", "gj")
+map("v", "k", "gk")
+
+map("n", "<C-h>", "g^", { desc = "Move start of visual line" })
+map("n", "<C-l>", "g$", { desc = "Move end of visual line" })
 map("n", "<C-k>", "10k", { desc = "Move up quick" })
 map("n", "<C-j>", "10j", { desc = "Move down quick" })
 map("n", "K", "<cmd> m -2 <CR>", { desc = "Move line up" })
