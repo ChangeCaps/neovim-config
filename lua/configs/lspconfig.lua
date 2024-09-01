@@ -6,12 +6,29 @@ local lspconfig = require "lspconfig"
 
 local nomap = vim.keymap.del
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 local on_attach = function(client, bufnr)
   require("nvchad.configs.lspconfig").on_attach(client, bufnr)
 
   nomap("n", "<leader>wa", { buffer = bufnr })
   nomap("n", "<leader>wr", { buffer = bufnr })
   nomap("n", "<leader>ra", { buffer = bufnr })
+
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({
+        group = augroup,
+        buffer = bufnr,
+    })
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({ bufnr = bufnr })
+      end,
+    })
+  end
 end
 
 -- java

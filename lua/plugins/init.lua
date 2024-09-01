@@ -52,14 +52,6 @@ return {
   },
 
   {
-    "nvimtools/none-ls.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return require "configs.none-ls"
-    end,
-  },
-
-  {
     "nvim-telescope/telescope.nvim",
     opts = require "configs.telescope",
     lazy = false,
@@ -102,14 +94,6 @@ return {
     opts = function()
       return require "configs.cmp"
     end
-  },
-
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
-    end,
   },
 
   {
