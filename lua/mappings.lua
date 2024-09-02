@@ -238,7 +238,17 @@ local function edit_registers(opts)
 
           vim.api.nvim_win_set_buf(win, buf)
 
+          -- Set the filetype of the buffer to lua
+          vim.api.nvim_set_option_value("filetype", "lua", { buf = buf })
+
           local reg = vim.fn.getreg(entry.value)
+
+          if reg:sub(-1) == "\n" then
+            reg = reg:sub(1, -2)
+          end
+
+          reg = reg:gsub("\n", "<CR>")
+
           vim.api.nvim_input("i" .. reg .. "<Esc>")
 
           -- Save the content of the buffer to the register
