@@ -200,9 +200,74 @@ end, { desc = "Debug Open sidebar" })
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
+local make_entry = require("telescope.make_entry")
 local config = require("telescope.config").values
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+
+local function edit_registers(opts)
+  local registers_table = { '"', "-", "#", "=", "/", "*", "+", ":", ".", "%" }
+
+  -- named
+  for i = 0, 9 do
+    table.insert(registers_table, tostring(i))
+  end
+
+  -- alphabetical
+  for i = 97, 122 do
+    table.insert(registers_table, string.char(i))
+  end
+
+  pickers
+    .new(opts, {
+      prompt_title = "Registers",
+      finder = finders.new_table {
+        results = registers_table,
+        entry_maker = opts.entry_maker or make_entry.gen_from_registers(opts),
+      },
+      sorter = config.generic_sorter(opts),
+      attach_mappings = function(_)
+        actions.select_default:replace(function(prompt_bufnr)
+          local entry = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+
+          local prev_buf = vim.api.nvim_get_current_buf()
+
+          local win = vim.api.nvim_get_current_win()
+          local buf = vim.api.nvim_create_buf(false, true)
+
+          vim.api.nvim_win_set_buf(win, buf)
+
+          local reg = vim.fn.getreg(entry.value)
+          vim.api.nvim_input("i" .. reg .. "<Esc>")
+
+          -- Save the content of the buffer to the register
+          local function save()
+            local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+            vim.fn.setreg(entry.value, content)
+          end
+
+          -- Create auto commands to save the content of the buffer to the register
+          vim.api.nvim_create_autocmd("BufLeave", {
+            callback = save,
+            once = true,
+          })
+
+          map("n", "<Esc>", function()
+            vim.api.nvim_win_set_buf(win, prev_buf)
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end, { buffer = buf })
+        end)
+
+        return true
+      end,
+    })
+    :find()
+end
+
+map("n", "<leader>fq", function()
+  edit_registers({})
+end, { desc = "telescope edit registers" })
 
 local function get_executable(apply)
   local opts = {}
