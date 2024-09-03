@@ -73,7 +73,7 @@ vim.opt.relativenumber = true
 
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
-  { "BufEnter", "BufWinEnter" },
+  { "BufEnter", "BufWinEnter", "BufRead", "BufNewFile" },
   {
     pattern = { "*.gd", "*.nix", "*.lua", "Makefile" },
     callback = function()
