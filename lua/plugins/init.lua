@@ -156,7 +156,7 @@ return {
 
   -- nvim-surround
   {
-    "blackCauldron7/surround.nvim",
+    "kylechui/nvim-surround",
     event = { "BufReadPost", "BufNewFile" },
   },
 
