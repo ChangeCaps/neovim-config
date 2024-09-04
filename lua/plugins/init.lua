@@ -154,6 +154,12 @@ return {
     end,
   },
 
+  -- nvim-surround
+  {
+    "blackCauldron7/surround.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+  },
+
   {
     "ziglang/zig.vim",
     ft = { "zig" },
