@@ -53,7 +53,8 @@ lspconfig.rust_analyzer.setup({
         command = "clippy",
       },
       cargo = {
-        allFeatures = true,
+        features = "all",
+        allTargets = true,
         loadOutDirsFromCheck = true,
       },
       workspace = {
