@@ -22,6 +22,7 @@ return {
         preserve_window_proportions = false,
       },
       renderer = {
+        group_empty = true,
         icons = {
           show = {
             git = true,
