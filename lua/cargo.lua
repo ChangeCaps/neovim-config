@@ -113,12 +113,7 @@ M.check = function()
 end
 
 M.test = function(opts)
-  local command = "cargo test"
-
-  if opts.all then
-    command = command .. " --all"
-  end
-
+  local command = "cargo test" .. " " .. opts.args
   run_in_window(command)
 end
 
