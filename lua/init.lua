@@ -63,10 +63,6 @@ create_command("B", build_last)
 create_command("Run", run)
 create_command("R", run_last)
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-
 -- Set foldings
 vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -75,15 +71,41 @@ vim.opt.foldlevel = 99
 -- Set relative line numbers
 vim.opt.relativenumber = true
 
+local short_indent = {
+  "yaml",
+  "json",
+  "toml",
+  "gd",
+  "nix",
+  "lua",
+  "gleam",
+  "Makefile"
+}
+
+local function is_short_indent()
+  for _, value in ipairs(short_indent) do
+    if vim.bo.filetype == value then
+      return true
+    end
+  end
+
+  return false
+end
+
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
-  { "BufReadPost", "BufNewFile" },
+  { "BufReadPost", "BufNewFile", "FileType" },
   {
-    pattern = { "*.gd", "*.nix", "*.lua", "Makefile" },
     callback = function()
-      vim.bo.tabstop = 2
-      vim.bo.softtabstop = 2
-      vim.bo.shiftwidth = 2
+      if is_short_indent() then
+        vim.bo.tabstop = 2
+        vim.bo.softtabstop = 2
+        vim.bo.shiftwidth = 2
+      else
+        vim.bo.tabstop = 4
+        vim.bo.softtabstop = 4
+        vim.bo.shiftwidth = 4
+      end
     end
   }
 )
