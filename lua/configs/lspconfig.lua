@@ -45,11 +45,7 @@ lspconfig.clangd.setup({
 
 -- rust
 lspconfig.rust_analyzer.setup({
-  on_attach = function(client, bufnr)
-    vim.cmd("TSBufDisable highlight")
-
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     ["rust-analyzer"] = {

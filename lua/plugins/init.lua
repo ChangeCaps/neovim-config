@@ -45,6 +45,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      highlight = {
+        disable = { "c", "cpp", "rust", "java" },
+      },
+    },
   },
 
   {
