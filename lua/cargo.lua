@@ -105,6 +105,25 @@ local function run_in_window(command)
   vim.api.nvim_input("G")
 end
 
+---@param args string[] | nil"
+local function join_arguments(args)
+  if args == nil then
+    return ""
+  end
+
+  local result = ""
+
+  for i, arg in ipairs(args) do
+    if i == 1 then
+      result = result .. " "
+    end
+
+    result = result .. arg
+  end
+
+  return result
+end
+
 local last_build_command = nil
 local last_run_command = nil
 
@@ -113,7 +132,7 @@ M.check = function()
 end
 
 M.test = function(opts)
-  local command = "cargo test" .. " " .. opts.args
+  local command = "cargo test" .. " " .. join_arguments(opts.fargs)
   run_in_window(command)
 end
 
@@ -128,7 +147,7 @@ M.build = function(opts)
       local command = "cargo build --" ..
         target.kind[1] .. " " ..
         target.name .. " " ..
-        opts.args
+        join_arguments(opts.fargs)
 
       last_build_command = command
 
@@ -143,7 +162,7 @@ M.build_last = function(opts)
     return
   end
 
-  M.build()
+  M.build(opts)
 end
 
 M.run = function(opts)
@@ -162,7 +181,7 @@ M.run = function(opts)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
           target.name .. " " ..
-          opts.args
+          join_arguments(opts.fargs)
 
         if #args > 0 then
           command = command .. " -- " .. args
@@ -188,7 +207,7 @@ M.run_last = function(opts)
     return
   end
 
-  M.run()
+  M.run(opts)
 end
 
 return M

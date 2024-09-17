@@ -48,7 +48,7 @@ local function run_last(opts)
 end
 
 local function create_command(name, fn)
-  vim.api.nvim_create_user_command(name, fn, { nargs = 1 })
+  vim.api.nvim_create_user_command(name, fn, { nargs = "*" })
 end
 
 create_command("Check", check)
