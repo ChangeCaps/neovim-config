@@ -122,7 +122,7 @@ M.test = function(opts)
   run_in_window(command)
 end
 
-M.build = function()
+M.build = function(opts)
   select_target(
     { "lib", "bin", "example", "test", "bench" },
     function(target)
@@ -130,7 +130,11 @@ M.build = function()
         return
       end
 
-      local command = "cargo build --" .. target.kind[1] .. " " .. target.name
+      local command = "cargo build --" ..
+        target.kind[1] .. " " ..
+        target.name .. " " ..
+        opts.args
+
       last_build_command = command
 
       run_in_window(command)
@@ -138,8 +142,8 @@ M.build = function()
   )
 end
 
-M.build_last = function()
-  if last_build_command then
+M.build_last = function(opts)
+  if last_build_command and #opts.fargs == 0 then
     run_in_window(last_build_command)
     return
   end
@@ -162,13 +166,13 @@ M.run = function(opts)
       local function run_target(args)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
-          target.name
+          target.name .. " " ..
+          opts.args
 
-        if opts.release then
-          command = command .. " --release"
+        if #args > 0 then
+          command = command .. " -- " .. args
         end
 
-        command = command .. " -- " .. args
         last_run_command = command
 
         run_in_window(command)
@@ -183,8 +187,8 @@ M.run = function(opts)
   )
 end
 
-M.run_last = function()
-  if last_run_command then
+M.run_last = function(opts)
+  if last_run_command and #opts.fargs == 0 then
     run_in_window(last_run_command)
     return
   end

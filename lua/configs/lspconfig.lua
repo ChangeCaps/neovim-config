@@ -71,6 +71,12 @@ lspconfig.rust_analyzer.setup({
   },
 })
 
+-- gleam
+lspconfig.gleam.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- python
 lspconfig.pyright.setup({
   on_attach = on_attach,

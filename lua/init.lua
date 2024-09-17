@@ -1,46 +1,50 @@
 -- Add Commands
 local function check()
-  require("cargo").check()
+  if vim.bo.filetype == "rust" then
+    return require("cargo").check()
+  end
+
+  vim.notify("Check is not supported for this filetype")
 end
 
 local function test(opts)
-  local test_opts = {}
-
-  for _, v in ipairs(opts.fargs) do
-    if v == "all" or v == "a" then
-      test_opts.all = true
-    end
+  if vim.bo.filetype == "rust" then
+    return require("cargo").test(opts)
   end
 
-  require("cargo").test(test_opts)
+  vim.notify("Test is not supported for this filetype")
 end
 
-local function build()
-  require("cargo").build()
+local function build(opts)
+  if vim.bo.filetype == "rust" then
+    return require("cargo").build(opts)
+  end
+
+  vim.notify("Build is not supported for this filetype")
 end
 
-local function build_last()
-  require("cargo").build_last()
+local function build_last(opts)
+  if vim.bo.filetype == "rust" then
+    return require("cargo").build_last(opts)
+  end
+
+  vim.notify("Build last is not supported for this filetype")
 end
 
 local function run(opts)
-  local run_opts = {}
-
-  for _, v in ipairs(opts.fargs) do
-    if v == "release" or v == "r" then
-      run_opts.release = true
-    end
+  if vim.bo.filetype == "rust" then
+    return require("cargo").run(opts)
   end
 
-  require("cargo").run(run_opts)
+  vim.notify("Run is not supported for this filetype")
 end
 
 local function run_last(opts)
-  if #opts.fargs > 0 then
-    run(opts)
-  else
-    require("cargo").run_last()
+  if vim.bo.filetype == "rust" then
+    return require("cargo").run_last(opts)
   end
+
+  vim.notify("Run last is not supported for this filetype")
 end
 
 local function create_command(name, fn)
