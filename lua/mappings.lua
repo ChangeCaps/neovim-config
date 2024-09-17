@@ -103,7 +103,7 @@ map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right"
 
 -- tabs
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
-map("n", "<leader>Q", "<cmd> bufdo bd <CR>", { desc = "Buffer close all" })
+map("n", "<leader>Q", "<cmd> %bd <bar> e# <CR>", { desc = "Buffer close all" })
 
 map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Tab new" })
 map("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Tab close" })
