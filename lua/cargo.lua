@@ -149,7 +149,7 @@ M.build = function(opts)
       local command = "cargo build --" ..
         target.kind[1] .. " " ..
         target.name .. " " ..
-        " --package " .. target.pkg .. " " ..
+        "--package " .. target.pkg .. " " ..
         join_arguments(opts.fargs)
 
       last_build_command = command
@@ -184,7 +184,7 @@ M.run = function(opts)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
           target.name .. " " ..
-          " --package " .. target.pkg .. " " ..
+          "--package " .. target.pkg .. " " ..
           join_arguments(opts.fargs)
 
         if #args > 0 then
