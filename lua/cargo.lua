@@ -5,6 +5,7 @@ local M = {}
 
 ---@class cargo.Target
 ---@field name string
+---@field pkg string
 ---@field kind string[]
 
 local function get_metadata()
@@ -54,6 +55,7 @@ local function get_targets(kinds)
     if is_package_in_workspace(metadata, package.id) then
       for _, target in ipairs(package.targets) do
         if is_valid_target(target, kinds) then
+          target.pkg = package.name
           table.insert(targets, target)
         end
       end
@@ -147,6 +149,7 @@ M.build = function(opts)
       local command = "cargo build --" ..
         target.kind[1] .. " " ..
         target.name .. " " ..
+        " --package " .. target.pkg .. " " ..
         join_arguments(opts.fargs)
 
       last_build_command = command
@@ -181,6 +184,7 @@ M.run = function(opts)
         local command = "cargo run --" ..
           target.kind[1] .. " " ..
           target.name .. " " ..
+          " --package " .. target.pkg .. " " ..
           join_arguments(opts.fargs)
 
         if #args > 0 then
