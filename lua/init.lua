@@ -78,6 +78,7 @@ local short_indent = {
   "gd",
   "nix",
   "lua",
+  "rite",
   "gleam",
   "Makefile"
 }
@@ -94,7 +95,7 @@ end
 
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
-  { "BufReadPost", "BufNewFile", "FileType" },
+  { "FileType" },
   {
     callback = function()
       if is_short_indent() then
@@ -110,4 +111,4 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-vim.o.guifont = "FiraCode Nerd Font:h10:#e-subpixelantialias"
+vim.o.guifont = "FiraCode Nerd Font:h14:#e-subpixelantialias"

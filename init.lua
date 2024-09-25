@@ -34,6 +34,12 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "nvchad.autocmds"
 
+vim.filetype.add({
+  extension = {
+    ri = "rite",
+  },
+})
+
 vim.schedule(function()
   require "mappings"
 end)
