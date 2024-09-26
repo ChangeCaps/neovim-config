@@ -103,7 +103,25 @@ map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right"
 
 -- tabs
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
-map("n", "<leader>Q", "<cmd> %bd <bar> e# <CR>", { desc = "Buffer close all" })
+map("n", "<leader>Q", function()
+  local bufs = vim.api.nvim_list_bufs()
+  local wins = vim.api.nvim_list_wins()
+
+  for _, buf in ipairs(bufs) do
+    local viewd = false
+
+    for _, win in ipairs(wins) do
+      if vim.api.nvim_win_get_buf(win) == buf then
+        viewd = true
+        break
+      end
+    end
+
+    if not viewd then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+end, { desc = "Buffer close all" })
 
 map("n", "<leader>tt", "<cmd>tabnew<CR>", { desc = "Tab new" })
 map("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Tab close" })
