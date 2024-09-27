@@ -3,10 +3,10 @@ if exists("b:current_syntax")
 endif
 
 syn keyword riteKeywords
-    \ assert fn for import let loop mut panic pub pure return type
+    \ assert fn for import let loop mut panic pub pure return type as
 
 syn keyword riteConditionals
-    \ if match
+    \ if else match
 
 syn keyword riteTypes
     \ str bool true false void i8 i16 i32 i64 int u8 u16 u32 u64 f32 f64
@@ -26,6 +26,7 @@ syn match riteOperator "==" contained
 syn match riteOperator "!=" contained
 syn match riteOperator "<=" contained
 syn match riteOperator ">=" contained
+syn match riteOperator "|>" contained
 syn match riteOperator "<" contained
 syn match riteOperator ">" contained
 syn match riteOperator "+" contained
