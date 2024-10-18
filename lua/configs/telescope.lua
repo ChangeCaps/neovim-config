@@ -5,6 +5,4 @@ M.defaults.mappings.i = {
   ["<C-k>"] = "move_selection_previous",
 }
 
-table.insert(M.extensions_list, "ui-select");
-
 return M

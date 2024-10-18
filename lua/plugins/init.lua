@@ -54,7 +54,11 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
-    opts = require "configs.telescope",
+    config = function()
+      local opts = require "configs.telescope"
+      require("telescope").setup(opts)
+      require("telescope").load_extension("ui-select")
+    end,
     lazy = false,
   },
 
@@ -162,11 +166,6 @@ return {
     config = function()
       require("nvim-surround").setup()
     end,
-  },
-
-  {
-    "ziglang/zig.vim",
-    ft = { "zig" },
   },
 
   {
