@@ -330,12 +330,13 @@ end
 
 map("n", "<F5>", function()
   local dap = require('dap')
-  local run = require('run')
 
-  if dap.session() then
+  if dap.session() or vim.bo.filetype == "gdscript" then
     dap.continue()
     return
   end
+
+  local run = require('run')
 
   local type = "gdb"
 
