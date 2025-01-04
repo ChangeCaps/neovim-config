@@ -16,6 +16,8 @@ local on_attach = function(client, bufnr)
   nomap("n", "<leader>ra", { buffer = bufnr })
 
   if client.supports_method("textDocument/formatting") then
+    vim.print("Formatting enabled for " .. client.name)
+
     vim.api.nvim_clear_autocmds({
         group = augroup,
         buffer = bufnr,
@@ -91,6 +93,12 @@ lspconfig.gdscript.setup({
 
 -- javascript
 lspconfig.ts_ls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+-- nushell
+lspconfig.nushell.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
