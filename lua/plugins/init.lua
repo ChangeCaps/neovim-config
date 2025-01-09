@@ -46,10 +46,15 @@ return {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
+      ensure_installed = { "nu" },
       highlight = {
         disable = { "c", "cpp", "rust", "java" },
       },
     },
+    dependencies = {
+      { "nushell/tree-sitter-nu" },
+    },
+    build = ":TSUpdate",
   },
 
   {
