@@ -27,7 +27,7 @@ map("n", "<leader>tm", function()
   map("n", "q", quit, { buffer = buf })
   map("n", "<Esc>", quit, { buffer = buf })
 
-  vim.fn.termopen("$SHELL")
+  vim.fn.termopen("/bin/sh -c \"$SHELL\"")
   vim.api.nvim_input("a")
 end, { desc = "Terminal open temporary" })
 
