@@ -115,3 +115,9 @@ lspconfig.zls.setup({
   capabilities = capabilities,
   root_dir = lspconfig.util.root_pattern("build.zig", ".git"),
 })
+
+-- dart
+lspconfig.dartls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
