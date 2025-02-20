@@ -80,7 +80,7 @@ local short_indent = {
   "lua",
   "rite",
   "gleam",
-  "Makefile"
+  "Makefile",
 }
 
 local function is_short_indent()
@@ -93,9 +93,14 @@ local function is_short_indent()
   return false
 end
 
+-- Set default tab width to 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+
 -- Set tab width to 2 for select files
 vim.api.nvim_create_autocmd(
-  { "FileType" },
+  { "BufRead", "BufNewFile", "FileType" },
   {
     callback = function()
       if is_short_indent() then
