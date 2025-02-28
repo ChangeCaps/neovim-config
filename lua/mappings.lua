@@ -36,7 +36,7 @@ nomap("n", "<leader>wK")
 nomap("n", "<leader>rn")
 nomap("n", "<leader>ds")
 
-local function laygitcmd(command)
+local function lazygitcmd(command)
   return function()
     vim.api.nvim_command(command);
 
@@ -46,22 +46,22 @@ local function laygitcmd(command)
 end
 
 -- LazyGit 
-map("n", "<leader>gg", laygitcmd("LazyGit"), {
+map("n", "<leader>gg", lazygitcmd("LazyGit"), {
   desc = "LazyGit Open"
 })
-map("n", "<leader>gc", "<cmd>LazyGitConfig <CR>",{
+map("n", "<leader>gC", lazygitcmd("LazyGitConfig"), {
   desc = "LazyGit Open Config"
 })
-map("n", "<leader>gf", laygitcmd("LazyGitFiles"), {
-  desc = "LazyGit Open Current File"
-})
-map("n", "<leader>gF", laygitcmd("LazyGitFilesAll"), {
-  desc = "LazyGit Open Filter"
-})
-map("n", "<leader>gC", laygitcmd("LazyGitFilesCurrent"), {
+map("n", "<leader>gc", lazygitcmd("LazyGitCurrentFile"), {
   desc = "LazyGit Open Filter Current File"
 })
 
+-- GitSigns
+map("n", "gb", function()
+  require("gitsigns").blame_line()
+end, { desc = "Git blame line" })
+
+-- Save buffer
 map("n", "<leader>w", function()
   if vim.bo.modified then
     vim.api.nvim_command('w')
