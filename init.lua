@@ -35,6 +35,7 @@ require "options"
 vim.filetype.add({
   extension = {
     ri = "rite",
+    bd = "brad",
   },
 })
 
