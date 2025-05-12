@@ -57,6 +57,17 @@ return {
     build = ":TSUpdate",
   },
 
+  -- Markdown preview
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  },
+
+  -- Telescope
   {
     "nvim-telescope/telescope.nvim",
     config = function()
@@ -134,6 +145,7 @@ return {
     end
   },
 
+  -- Catppuccin theme
   {
     "catppuccin/nvim",
     priority = 1000,
