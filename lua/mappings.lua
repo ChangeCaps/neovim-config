@@ -27,7 +27,7 @@ map("n", "<leader>tm", function()
   map("n", "q", quit, { buffer = buf })
   map("n", "<Esc>", quit, { buffer = buf })
 
-  vim.fn.termopen("/bin/sh -c \"$SHELL\"")
+  vim.fn.jobstart("/bin/sh -c \"$SHELL\"", { term = true })
   vim.api.nvim_input("a")
 end, { desc = "Terminal open temporary" })
 
@@ -108,16 +108,23 @@ map("n", "<leader>Q", function()
   local wins = vim.api.nvim_list_wins()
 
   for _, buf in ipairs(bufs) do
-    local viewd = false
+    local keep = false
 
     for _, win in ipairs(wins) do
       if vim.api.nvim_win_get_buf(win) == buf then
-        viewd = true
+        keep = true
         break
       end
     end
 
-    if not viewd then
+    -- get the filetype of the buffer
+    local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+
+    if string.find(ft, "NvTerm") then
+      keep = true
+    end
+
+    if not keep then
       vim.api.nvim_buf_delete(buf, { force = true })
     end
   end
