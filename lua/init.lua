@@ -81,6 +81,7 @@ local short_indent = {
   "rite",
   "brad",
   "gleam",
+  "haskell",
   "Makefile",
 }
 
