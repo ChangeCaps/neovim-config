@@ -91,6 +91,12 @@ lspconfig.gdscript.setup({
   capabilities = capabilities,
 })
 
+-- haskell
+lspconfig.hls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- javascript
 lspconfig.ts_ls.setup({
   on_attach = on_attach,
