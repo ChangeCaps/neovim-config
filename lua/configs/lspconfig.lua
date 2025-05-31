@@ -97,6 +97,12 @@ lspconfig.hls.setup({
   capabilities = capabilities,
 })
 
+-- ocaml
+lspconfig.ocamllsp.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- javascript
 lspconfig.ts_ls.setup({
   on_attach = on_attach,
