@@ -82,6 +82,7 @@ local short_indent = {
   "brad",
   "dart",
   "gleam",
+  "ike",
   "haskell",
   "Makefile",
 }

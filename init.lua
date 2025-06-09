@@ -36,6 +36,7 @@ vim.filetype.add({
   extension = {
     ri = "rite",
     bd = "brad",
+    ike = "ike",
   },
 })
 
