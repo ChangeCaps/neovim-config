@@ -80,7 +80,9 @@ local short_indent = {
   "lua",
   "rite",
   "brad",
+  "dart",
   "gleam",
+  "ike",
   "haskell",
   "Makefile",
 }
