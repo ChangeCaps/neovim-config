@@ -161,22 +161,6 @@ return {
     end
   },
 
-  {
-    "zbirenbaum/copilot.lua",
-    lazy = false,
-    opts = {
-      suggestion = {
-        auto_trigger = true,
-        keymap = {
-          accept = "<S-CR>",
-        },
-      }
-    },
-    config = function(_, opts)
-      require("copilot").setup(opts)
-    end,
-  },
-
   -- nvim-surround
   {
     "kylechui/nvim-surround",
