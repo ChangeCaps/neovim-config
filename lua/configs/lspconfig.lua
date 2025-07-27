@@ -133,3 +133,18 @@ lspconfig.dartls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
+
+-- ike
+vim.lsp.config("ike", {
+  cmd = {
+    "/dev-storage/rust/ike/target/release/ike",
+    "lsp",
+  },
+  filetypes = { "ike" },
+  root_markers = { ".git" },
+  on_attach = on_attach,
+  on_init = function() end,
+  capabilities = capabilities,
+})
+
+vim.lsp.enable("ike")
