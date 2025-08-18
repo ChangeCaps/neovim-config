@@ -135,7 +135,7 @@ lspconfig.dartls.setup({
 })
 
 -- typst
-lspconfig.typst.setup({
+lspconfig.tinymist.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
