@@ -134,6 +134,12 @@ lspconfig.dartls.setup({
   capabilities = capabilities,
 })
 
+-- typst
+lspconfig.typst.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 -- ike
 vim.lsp.config("ike", {
   cmd = {
