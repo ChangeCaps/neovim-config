@@ -142,10 +142,7 @@ lspconfig.tinymist.setup({
 
 -- ike
 vim.lsp.config("ike", {
-  cmd = {
-    "/dev-storage/rust/ike/target/release/ike",
-    "lsp",
-  },
+  cmd = { "ike", "lsp" },
   filetypes = { "ike" },
   root_markers = { ".git" },
   on_attach = on_attach,
