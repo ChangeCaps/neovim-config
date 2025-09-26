@@ -75,7 +75,7 @@ local short_indent = {
   "yaml",
   "json",
   "toml",
-  "gd",
+  "gdscript",
   "nix",
   "lua",
   "rite",
