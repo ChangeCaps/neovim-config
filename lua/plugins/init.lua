@@ -58,25 +58,13 @@ return {
   },
 
   -- Render markdown
-  -- {
-  --   "MeanderingProgrammer/render-markdown.nvim",
-  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
-  --   ft = { "markdown" },
-  --   config = function()
-  --     require("render-markdown").setup({})
-  --   end,
-  -- },
-  
-  -- Markview
   {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = { "OXY2DEV/markview.nvim" },
-    lazy = false,
-    opts = {
-      typst = {
-        enable = true,
-      },
-    },
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = { "markdown" },
+    config = function()
+      require("render-markdown").setup({})
+    end,
   },
 
   -- Telescope

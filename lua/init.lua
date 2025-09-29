@@ -85,6 +85,7 @@ local short_indent = {
   "ike",
   "haskell",
   "Makefile",
+  "markdown",
 }
 
 local function is_short_indent()
