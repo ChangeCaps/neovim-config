@@ -97,6 +97,10 @@ local function is_short_indent()
   return false
 end
 
+-- Set spell checking
+vim.opt.spell = true
+vim.opt.spelllang = "en"
+
 -- Set default tab width to 4
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
