@@ -151,6 +151,10 @@ map("n", "L", function()
   vim.lsp.buf.hover()
 end, { desc = "LSP hover" })
 
+map("n", "<leader>s", function()
+  vim.diagnostic.open_float()
+end, { desc = "LSP open diagnostic"})
+
 map("n", "<leader>fd", function()
   require("telescope.builtin").diagnostics()
 end, { desc = "telescope lsp diagnostics" })

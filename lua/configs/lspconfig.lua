@@ -33,6 +33,12 @@ vim.lsp.config("*", {
   capabilities = capabilities,
 })
 
+vim.diagnostic.config({
+  virtual_text = true,
+})
+
+vim.diagnostic.enable()
+
 -- java
 vim.lsp.enable("jdtls")
 
