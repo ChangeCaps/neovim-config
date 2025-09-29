@@ -1,11 +1,6 @@
--- load defaults i.e lua_lsp
-require("nvchad.configs.lspconfig").defaults()
-
 local capabilities = require("nvchad.configs.lspconfig").capabilities
-local lspconfig = require "lspconfig"
 
 local nomap = vim.keymap.del
-
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local on_attach = function(client, bufnr)
@@ -33,22 +28,19 @@ local on_attach = function(client, bufnr)
   })
 end
 
--- java
-lspconfig.jdtls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
+vim.lsp.config("*", {
+  on_attach = on_attach,
+  capabilities = capabilities,
 })
+
+-- java
+vim.lsp.enable("jdtls")
 
 -- c/c++
-lspconfig.clangd.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("clangd")
 
 -- rust
-lspconfig.rust_analyzer.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config("rust_analyzer", {
   settings = {
     ["rust-analyzer"] = {
       checkOnSave = {
@@ -73,72 +65,40 @@ lspconfig.rust_analyzer.setup({
   },
 })
 
+vim.lsp.enable("rust_analyzer")
+
 -- gleam
-lspconfig.gleam.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("gleam")
 
 -- python
-lspconfig.pyright.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("pyright")
 
 -- godot
-lspconfig.gdscript.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("gdscript")
 
 -- haskell
-lspconfig.hls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("hls")
 
 -- ocaml
-lspconfig.ocamllsp.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("ocamllsp")
 
 -- javascript
-lspconfig.ts_ls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("ts_ls")
 
 -- nushell
-lspconfig.nushell.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("nushell")
 
 -- nix
-lspconfig.nixd.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("nixd")
 
 -- zig
-lspconfig.zls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern("build.zig", ".git"),
-})
+vim.lsp.enable("zls")
 
 -- dart
-lspconfig.dartls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("dartls")
 
 -- typst
-lspconfig.tinymist.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
+vim.lsp.enable("tinymist")
 
 -- ike
 vim.lsp.config("ike", {
