@@ -47,6 +47,8 @@ vim.lsp.enable("clangd")
 
 -- rust
 vim.lsp.config("rust_analyzer", {
+  on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     ["rust-analyzer"] = {
       checkOnSave = {
@@ -112,7 +114,6 @@ vim.lsp.config("ike", {
   filetypes = { "ike" },
   root_markers = { ".git" },
   on_attach = on_attach,
-  on_init = function() end,
   capabilities = capabilities,
 })
 
