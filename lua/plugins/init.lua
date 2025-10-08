@@ -145,21 +145,6 @@ return {
     end
   },
 
-  -- Catppuccin theme
-  {
-    "catppuccin/nvim",
-    priority = 1000,
-    lazy = false,
-    config = function()
-      local catppuccin = require("catppuccin")
-      catppuccin.setup({
-        term_colors = true,
-      })
-
-      vim.cmd.colorscheme "catppuccin"
-    end
-  },
-
   -- nvim-surround
   {
     "kylechui/nvim-surround",
