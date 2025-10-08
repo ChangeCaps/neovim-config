@@ -13,8 +13,8 @@ local on_attach = function(client, bufnr)
   vim.print("Formatting enabled for " .. client.name)
 
   vim.api.nvim_clear_autocmds({
-      group = augroup,
-      buffer = bufnr,
+    group = augroup,
+    buffer = bufnr,
   })
 
   vim.api.nvim_create_autocmd("BufWritePre", {
@@ -38,6 +38,30 @@ vim.diagnostic.config({
 })
 
 vim.diagnostic.enable()
+
+-- lua
+local lua_lsp_settings = {
+  Lua = {
+    runtime = { version = "LuaJIT" },
+    workspace = {
+      library = {
+        vim.fn.expand "$VIMRUNTIME/lua",
+        vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+        vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+        "${3rd}/luv/library",
+      },
+    },
+  },
+}
+
+vim.lsp.config("lua_ls", {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = lua_lsp_settings,
+})
+
+
+vim.lsp.enable("lua_ls")
 
 -- java
 vim.lsp.enable("jdtls")

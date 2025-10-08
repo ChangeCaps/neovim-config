@@ -1,3 +1,5 @@
+require "neovide"
+
 -- Add Commands
 local function check()
   if vim.bo.filetype == "rust" then
@@ -124,5 +126,3 @@ vim.api.nvim_create_autocmd(
     end
   }
 )
-
-vim.o.guifont = "FiraCode Nerd Font:h12:#e-subpixelantialias"
