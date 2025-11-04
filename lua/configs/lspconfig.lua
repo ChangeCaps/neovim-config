@@ -1,4 +1,5 @@
 local capabilities = require("nvchad.configs.lspconfig").capabilities
+local on_init = require("nvchad.configs.lspconfig").on_init
 
 local nomap = vim.keymap.del
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -9,8 +10,6 @@ local on_attach = function(client, bufnr)
   nomap("n", "<leader>wa", { buffer = bufnr })
   nomap("n", "<leader>wr", { buffer = bufnr })
   nomap("n", "<leader>ra", { buffer = bufnr })
-
-  vim.print("Formatting enabled for " .. client.name)
 
   vim.api.nvim_clear_autocmds({
     group = augroup,
@@ -30,6 +29,7 @@ end
 
 vim.lsp.config("*", {
   on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
 })
 
@@ -40,24 +40,23 @@ vim.diagnostic.config({
 vim.diagnostic.enable()
 
 -- lua
-local lua_lsp_settings = {
-  Lua = {
-    runtime = { version = "LuaJIT" },
-    workspace = {
-      library = {
-        vim.fn.expand "$VIMRUNTIME/lua",
-        vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-        vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-        "${3rd}/luv/library",
+vim.lsp.config("lua_ls", {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      workspace = {
+        library = {
+          vim.fn.expand "$VIMRUNTIME/lua",
+          vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+          vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+          "${3rd}/luv/library",
+        },
       },
     },
   },
-}
-
-vim.lsp.config("lua_ls", {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = lua_lsp_settings,
 })
 
 
@@ -67,17 +66,21 @@ vim.lsp.enable("lua_ls")
 vim.lsp.enable("jdtls")
 
 -- c/c++
+vim.lsp.config("clangd", {
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 vim.lsp.enable("clangd")
 
 -- rust
 vim.lsp.config("rust_analyzer", {
   on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
   settings = {
     ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy",
-      },
+      checkOnSave = true,
       cargo = {
         features = "all",
         allTargets = true,
@@ -138,6 +141,7 @@ vim.lsp.config("ike", {
   filetypes = { "ike" },
   root_markers = { ".git" },
   on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
 })
 
