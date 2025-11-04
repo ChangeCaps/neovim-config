@@ -45,7 +45,7 @@ local function lazygitcmd(command)
   end
 end
 
--- LazyGit 
+-- LazyGit
 map("n", "<leader>gg", lazygitcmd("LazyGit"), {
   desc = "LazyGit Open"
 })
@@ -101,6 +101,93 @@ map("n", "<CS-j>", "<cmd>resize +2<CR>", { desc = "Window resize down" })
 map("n", "<CS-k>", "<cmd>resize -2<CR>", { desc = "Window resize up" })
 map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right" })
 
+-- patch filter command
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  pattern = ":",
+  callback = function()
+    local cmdline = vim.fn.getcmdline()
+
+    if cmdline:match("!") then
+      vim.fn.setcmdline(cmdline:gsub("!", "Filter "))
+    end
+  end,
+})
+
+vim.api.nvim_create_user_command("Filter", function(opts)
+  local mode      = vim.fn.visualmode()
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos   = vim.fn.getpos("'>")
+
+  if opts.range < 2 or start_pos[2] == 0 then
+    start_pos = { 0, opts.line1 or 1, 1, 0 }
+    end_pos   = { 0, opts.line2 or 1, 1000, 0 }
+  end
+
+  while opts.args:match("Filter ") do
+    opts.args = opts.args:sub(#"Filter " + 1)
+    end_pos[2] = end_pos[2] + 1
+  end
+
+  local lines = vim.fn.getline(start_pos[2], end_pos[2])
+
+  if type(lines) == "string" then
+    lines = { lines }
+  end
+
+  if mode == "v" then
+    if #lines == 1 then
+      lines[1] = lines[1]:sub(start_pos[3], end_pos[3])
+    else
+      lines[1]      = lines[1]:sub(start_pos[3])
+      lines[#lines] = lines[#lines]:sub(1, end_pos[3])
+    end
+  elseif mode == "" then
+    local start_col = math.min(start_pos[3], end_pos[3])
+
+    for i, line in ipairs(lines) do
+      local end_col = math.max(start_pos[3], end_pos[3])
+      end_col       = math.min(end_col, #line)
+      lines[i]      = line:sub(start_col, end_col)
+    end
+  end
+
+  local end_line = vim.fn.getline(end_pos[2])
+
+  local input = table.concat(lines, "\n")
+  local output = vim.fn.systemlist(opts.args, input)
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify(
+      string.format(
+        "Command failed (%d): %s",
+        vim.v.shell_error,
+        opts.args
+      ),
+      vim.log.levels.ERROR
+    )
+
+    return
+  end
+
+  if mode == "" then
+    for i, line in ipairs(output) do
+      local buf = start_pos[2] + i - 1
+      local org = vim.fn.getline(buf)
+      local s   = math.min(start_pos[3], end_pos[3])
+      local e   = math.min(s + #line - 1, #org)
+      local new = org:sub(1, s - 1) .. line .. org:sub(e + 1)
+      vim.api.nvim_buf_set_lines(0, buf - 1, buf, false, { new })
+    end
+  else
+    vim.api.nvim_buf_set_text(
+      0,
+      start_pos[2] - 1, start_pos[3] - 1,
+      end_pos[2] - 1, math.min(end_pos[3], #end_line),
+      output
+    )
+  end
+end, { range = true, nargs = "*", complete = "shellcmd" })
+
 -- tabs
 map("n", "<leader>q", "<cmd> bp <bar> sp <bar> bn <bar> bd <CR>", { desc = "Buffer close" })
 map("n", "<leader>Q", function()
@@ -153,7 +240,7 @@ end, { desc = "LSP hover" })
 
 map("n", "<leader>s", function()
   vim.diagnostic.open_float()
-end, { desc = "LSP open diagnostic"})
+end, { desc = "LSP open diagnostic" })
 
 map("n", "<leader>fd", function()
   require("telescope.builtin").diagnostics()
@@ -249,60 +336,60 @@ local function edit_registers(opts)
   end
 
   pickers
-    .new(opts, {
-      prompt_title = "Registers",
-      finder = finders.new_table {
-        results = registers_table,
-        entry_maker = opts.entry_maker or make_entry.gen_from_registers(opts),
-      },
-      sorter = config.generic_sorter(opts),
-      attach_mappings = function(_)
-        actions.select_default:replace(function(prompt_bufnr)
-          local entry = action_state.get_selected_entry()
-          actions.close(prompt_bufnr)
+      .new(opts, {
+        prompt_title = "Registers",
+        finder = finders.new_table {
+          results = registers_table,
+          entry_maker = opts.entry_maker or make_entry.gen_from_registers(opts),
+        },
+        sorter = config.generic_sorter(opts),
+        attach_mappings = function(_)
+          actions.select_default:replace(function(prompt_bufnr)
+            local entry = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
 
-          local prev_buf = vim.api.nvim_get_current_buf()
+            local prev_buf = vim.api.nvim_get_current_buf()
 
-          local win = vim.api.nvim_get_current_win()
-          local buf = vim.api.nvim_create_buf(false, true)
+            local win = vim.api.nvim_get_current_win()
+            local buf = vim.api.nvim_create_buf(false, true)
 
-          vim.api.nvim_win_set_buf(win, buf)
+            vim.api.nvim_win_set_buf(win, buf)
 
-          -- Set the filetype of the buffer to lua
-          vim.api.nvim_set_option_value("filetype", "lua", { buf = buf })
+            -- Set the filetype of the buffer to lua
+            vim.api.nvim_set_option_value("filetype", "lua", { buf = buf })
 
-          local reg = vim.fn.getreg(entry.value)
+            local reg = vim.fn.getreg(entry.value)
 
-          if reg:sub(-1) == "\n" then
-            reg = reg:sub(1, -2)
-          end
+            if reg:sub(-1) == "\n" then
+              reg = reg:sub(1, -2)
+            end
 
-          reg = reg:gsub("\n", "<CR>")
+            reg = reg:gsub("\n", "<CR>")
 
-          vim.api.nvim_input("i" .. reg .. "<Esc>")
+            vim.api.nvim_input("i" .. reg .. "<Esc>")
 
-          -- Save the content of the buffer to the register
-          local function save()
-            local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-            vim.fn.setreg(entry.value, content)
-          end
+            -- Save the content of the buffer to the register
+            local function save()
+              local content = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+              vim.fn.setreg(entry.value, content)
+            end
 
-          -- Create auto commands to save the content of the buffer to the register
-          vim.api.nvim_create_autocmd("BufLeave", {
-            callback = save,
-            once = true,
-          })
+            -- Create auto commands to save the content of the buffer to the register
+            vim.api.nvim_create_autocmd("BufLeave", {
+              callback = save,
+              once = true,
+            })
 
-          map("n", "<Esc>", function()
-            vim.api.nvim_win_set_buf(win, prev_buf)
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end, { buffer = buf })
-        end)
+            map("n", "<Esc>", function()
+              vim.api.nvim_win_set_buf(win, prev_buf)
+              vim.api.nvim_buf_delete(buf, { force = true })
+            end, { buffer = buf })
+          end)
 
-        return true
-      end,
-    })
-    :find()
+          return true
+        end,
+      })
+      :find()
 end
 
 map("n", "<leader>fq", function()
