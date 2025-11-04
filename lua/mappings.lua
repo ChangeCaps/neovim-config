@@ -113,7 +113,10 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
     local cmdline = vim.fn.getcmdline()
     prev_cmd = cmdline
 
-    if cmdline:find("^[%.%$%%%'/%?\\].*!") then
+    if cmdline:find("^[%.%$%%%'/%?\\].*!")
+        and not cmdline:find("^[%.%$%%%'/%?\\].*r%s*!")
+        and not cmdline:find("^[%.%$%%%'/%?\\].*w%s*!")
+    then
       cmdline = cmdline:gsub("!", "Filter ", 1)
     end
 
