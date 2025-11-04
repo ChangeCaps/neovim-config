@@ -107,11 +107,13 @@ map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right"
 vim.opt.shell = "bash"
 
 local prev_cmd
+
 vim.api.nvim_create_autocmd("CmdlineLeave", {
   pattern = ":",
   callback = function()
     local cmdline = vim.fn.getcmdline()
     prev_cmd = cmdline
+
 
     if cmdline:find("^[%.%$%%%'/%?\\].*!")
         and not cmdline:find("^[%.%$%%%'/%?\\].*r%s*!")
@@ -126,12 +128,17 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
 
 vim.api.nvim_create_user_command("Filter", function(opts)
   local mode      = vim.fn.visualmode()
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos   = vim.fn.getpos("'>")
+  local start_pos = { 0, opts.line1 or 1, 1, 0 }
+  local end_pos   = { 0, opts.line2 or 1, 1000, 0 }
 
-  if opts.range < 2 or start_pos[2] == 0 then
-    start_pos = { 0, opts.line1 or 1, 1, 0 }
-    end_pos   = { 0, opts.line2 or 1, 1000, 0 }
+  if mode == "v" or mode == "" then
+    if start_pos[2] == vim.fn.getpos("'<")[2] then
+      start_pos[3] = math.max(start_pos[3], vim.fn.getpos("'<")[3])
+    end
+
+    if end_pos[2] == vim.fn.getpos("'>")[2] then
+      end_pos[3] = math.min(end_pos[3], vim.fn.getpos("'>")[3])
+    end
   end
 
   local lines = vim.fn.getline(start_pos[2], end_pos[2])
