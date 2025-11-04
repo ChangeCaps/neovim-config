@@ -102,14 +102,22 @@ map("n", "<CS-k>", "<cmd>resize -2<CR>", { desc = "Window resize up" })
 map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right" })
 
 -- patch filter command
+--
+-- this entire thing is one giant pile of turd, but it works
+vim.opt.shell = "bash"
+
+local prev_cmd
 vim.api.nvim_create_autocmd("CmdlineLeave", {
   pattern = ":",
   callback = function()
     local cmdline = vim.fn.getcmdline()
+    prev_cmd = cmdline
 
-    if cmdline:match("!") then
-      vim.fn.setcmdline(cmdline:gsub("!", "Filter "))
+    if cmdline:find("^[%.%$%%%'/%?\\].*!") then
+      cmdline = cmdline:gsub("!", "Filter ", 1)
     end
+
+    vim.fn.setcmdline(cmdline)
   end,
 })
 
@@ -121,11 +129,6 @@ vim.api.nvim_create_user_command("Filter", function(opts)
   if opts.range < 2 or start_pos[2] == 0 then
     start_pos = { 0, opts.line1 or 1, 1, 0 }
     end_pos   = { 0, opts.line2 or 1, 1000, 0 }
-  end
-
-  while opts.args:match("Filter ") do
-    opts.args = opts.args:sub(#"Filter " + 1)
-    end_pos[2] = end_pos[2] + 1
   end
 
   local lines = vim.fn.getline(start_pos[2], end_pos[2])
@@ -186,6 +189,11 @@ vim.api.nvim_create_user_command("Filter", function(opts)
       output
     )
   end
+
+  -- more black magic
+  vim.fn.histdel(":", -1)
+  vim.fn.histadd(":", prev_cmd)
+  vim.print(":" .. prev_cmd)
 end, { range = true, nargs = "*", complete = "shellcmd" })
 
 -- tabs
