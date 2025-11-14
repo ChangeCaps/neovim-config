@@ -104,8 +104,6 @@ map("n", "<CS-l>", "<cmd>vertical resize +2<CR>", { desc = "Window resize right"
 -- patch filter command
 --
 -- this entire thing is one giant pile of turd, but it works
-vim.opt.shell = "bash"
-
 local prev_cmd
 
 vim.api.nvim_create_autocmd("CmdlineLeave", {
@@ -169,6 +167,11 @@ vim.api.nvim_create_user_command("Filter", function(opts)
   local input = table.concat(lines, "\n")
   local output = vim.fn.systemlist(opts.args, input)
 
+  -- black magic to set the history
+  vim.fn.histdel(":", -1)
+  vim.fn.histadd(":", prev_cmd)
+  vim.print(":" .. prev_cmd)
+
   if vim.v.shell_error ~= 0 then
     vim.notify(
       string.format(
@@ -199,11 +202,6 @@ vim.api.nvim_create_user_command("Filter", function(opts)
       output
     )
   end
-
-  -- more black magic
-  vim.fn.histdel(":", -1)
-  vim.fn.histadd(":", prev_cmd)
-  vim.print(":" .. prev_cmd)
 end, { range = true, nargs = "*", complete = "shellcmd" })
 
 -- tabs

@@ -86,6 +86,9 @@ vim.lsp.config("rust_analyzer", {
         allTargets = true,
         loadOutDirsFromCheck = true,
       },
+      check = {
+        command = "clippy",
+      },
       workspace = {
         symbol = {
           search = {
