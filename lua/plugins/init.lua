@@ -44,17 +44,36 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
-    opts = {
-      ensure_installed = { "nu" },
-      highlight = {
-        disable = { "c", "cpp", "rust", "java" },
-      },
-    },
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").setup {
+        ensure_installed = { "nu" },
+        highlight = {
+          disable = { "c", "cpp", "rust", "java" },
+        },
+      }
+    end,
     dependencies = {
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
       { "nushell/tree-sitter-nu" },
     },
-    build = ":TSUpdate",
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    init = function()
+      vim.g.no_plugin_maps = true
+    end,
+    config = function()
+      require("nvim-treesitter-textobjects").setup {
+        select = {
+          enable = true,
+          lookahead = true,
+        }
+      }
+    end,
   },
 
   -- Render markdown
@@ -72,8 +91,10 @@ return {
     "nvim-telescope/telescope.nvim",
     config = function()
       local opts = require "configs.telescope"
-      require("telescope").setup(opts)
-      require("telescope").load_extension("ui-select")
+      local telescope = require "telescope"
+
+      telescope.setup(opts)
+      telescope.load_extension("ui-select")
     end,
     lazy = false,
   },

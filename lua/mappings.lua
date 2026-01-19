@@ -91,6 +91,8 @@ map("n", "<leader>j", "<C-w>j", { desc = "Move window down" })
 map("n", "<leader>k", "<C-w>k", { desc = "Move window up" })
 map("n", "<leader>l", "<C-w>l", { desc = "Move window right" })
 map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "Telescope find files" })
+map("n", "<leader>p", "<cmd> Telescope find_files <CR>", { desc = "Telescope find files" })
+nomap("n", "<leader>pt")
 
 -- switch to last buffer
 map("n", "<leader><leader>", "<C-^>", { desc = "Move switch to last buffer" })
