@@ -70,6 +70,9 @@ vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 
+-- Shell
+vim.opt.shell = "nu"
+
 -- Set relative line numbers
 vim.opt.relativenumber = true
 
